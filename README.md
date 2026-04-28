@@ -1,4 +1,4 @@
-# Continuous Sign Language Translation
+# Continuous Sign Language Translation (CSLT) with FLAN-T5-small and a Diffusion Autoencoder
 
 Continuous sign language translation (sentence-level translation) remains a relatively niche and unexplored research area. Semantically rich spatio-temporal videos must be modelled to generate text from meaningful features in longer form clips.
 
