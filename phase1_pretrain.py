@@ -315,7 +315,7 @@ def train_phase1(cfg: Phase1Config):
         z_mean, z_std = 0.0, 0.0
         if z_stats:
             # Each z is [B, T', D] -> flatten to [B*T', D]
-            all_z = torch.cat([z.view(-1, z.size(-1)) for z in z_stats], dim=0)
+            all_z = torch.cat([z.reshape(-1, z.size(-1)) for z in z_stats], dim=0)
             z_mean = all_z.mean().item()
             z_std = all_z.std().item()
 
