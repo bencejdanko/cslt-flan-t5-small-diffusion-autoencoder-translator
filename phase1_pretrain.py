@@ -245,9 +245,9 @@ def train_phase1(cfg: Phase1Config):
                     lr = optimizer.param_groups[0]["lr"]
                     train_logger.log(
                         {
-                            "train/loss": accum_loss * cfg.gradient_accumulation_steps,
+                            "train/total_loss": accum_loss * cfg.gradient_accumulation_steps,
                             "train/lr": lr,
-                            **{f"train/{k}": v for k, v in loss_dict.items()},
+                            **{f"train/{k}": v for k, v in loss_dict.items() if k != "total_loss"},
                         },
                         step=global_step,
                     )
@@ -329,9 +329,11 @@ def train_phase1(cfg: Phase1Config):
         )
 
         # Epoch-level logging
+        lr = optimizer.param_groups[0]["lr"]
         epoch_metrics = {
             **{f"train/{k}": v for k, v in epoch_losses.items()},
             **{f"val/{k}": v for k, v in val_losses.items()},
+            "train/lr": lr,
             "z_mean": z_mean,
             "z_std": z_std,
         }

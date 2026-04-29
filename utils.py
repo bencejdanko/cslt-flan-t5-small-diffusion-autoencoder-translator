@@ -365,7 +365,7 @@ class TrainLogger:
             if not self._headers_written:
                 self._csv_file = open(path, "w", newline="")
                 self._csv_writer = csv.DictWriter(
-                    self._csv_file, fieldnames=list(row.keys())
+                    self._csv_file, fieldnames=list(row.keys()), extrasaction="ignore"
                 )
                 self._csv_writer.writeheader()
                 self._headers_written = True
