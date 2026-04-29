@@ -274,7 +274,7 @@ def train_phase2(cfg: Phase2Config):
                 )
 
                 # Add Latent Regularization to keep encoder healthy during finetuning
-                z = model.encoder(features, src_key_padding_mask=padding_mask)
+                z = model.encoder(features, src_key_padding_mask=pad_mask)
                 z_mean = torch.mean(z)
                 z_var = torch.var(z)
                 reg_loss = z_mean**2 + (z_var - 1)**2
