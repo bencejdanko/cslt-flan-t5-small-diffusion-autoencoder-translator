@@ -276,6 +276,7 @@ def train_phase1(cfg: Phase1Config):
             "masked_vel_loss": 0.0,
             "full_recon_loss": 0.0,
             "latent_smooth_loss": 0.0,
+            "latent_reg_loss": 0.0,
         }
         val_batches = 0
         z_stats = []
