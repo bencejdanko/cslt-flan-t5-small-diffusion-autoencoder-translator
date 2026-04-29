@@ -158,9 +158,10 @@ class Phase2Config:
     encoder_heads: int = 8
     encoder_dropout: float = 0.1
     use_part_embeddings: bool = True
-    t5_name: str = "google/flan-t5-small"
-    t5_dim: int = 512
+    t5_name: str = "google/flan-t5-base"
+    t5_dim: int = 768
     adapter_dropout: float = 0.1
+    label_smoothing: float = 0.1
 
     # Attention pooling
     use_attention_pooling: bool = True

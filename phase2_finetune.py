@@ -256,10 +256,19 @@ def train_phase2(cfg: Phase2Config):
 
             with torch.amp.autocast("cuda", enabled=cfg.mixed_precision):
                 output = model(features, labels=labels, padding_mask=pad_mask)
+                
+                # Manual loss calculation with Label Smoothing
+                logits = output.logits
+                loss = torch.nn.functional.cross_entropy(
+                    logits.view(-1, logits.size(-1)), 
+                    labels.view(-1), 
+                    label_smoothing=cfg.label_smoothing, 
+                    ignore_index=-100
+                )
 
                 if model.use_ctc_head:
-                    t5_output, ctc_log_probs = output
-                    loss = t5_output.loss
+                    # If using CTC, we keep the original logic but add the smoothed loss
+                    _, ctc_log_probs = output
 
                     # CTC loss with pseudo-targets (self-supervised alignment)
                     T_ctc = ctc_log_probs.size(0)
