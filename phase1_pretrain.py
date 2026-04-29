@@ -178,6 +178,7 @@ def train_phase1(cfg: Phase1Config):
             "masked_vel_loss": 0.0,
             "full_recon_loss": 0.0,
             "latent_smooth_loss": 0.0,
+            "latent_reg_loss": 0.0,
         }
         num_batches = 0
         accum_loss = 0.0
@@ -310,10 +311,11 @@ def train_phase1(cfg: Phase1Config):
         for k in val_losses:
             val_losses[k] /= max(val_batches, 1)
 
-        # Latent statistics
+        # Latent statistics (flattened over Time dimension)
         z_mean, z_std = 0.0, 0.0
         if z_stats:
-            all_z = torch.cat(z_stats, dim=0)
+            # Each z is [B, T', D] -> flatten to [B*T', D]
+            all_z = torch.cat([z.view(-1, z.size(-1)) for z in z_stats], dim=0)
             z_mean = all_z.mean().item()
             z_std = all_z.std().item()
 
@@ -329,7 +331,8 @@ def train_phase1(cfg: Phase1Config):
             f"pos: {val_losses['masked_pos_loss']:.4f}, "
             f"vel: {val_losses['masked_vel_loss']:.4f}, "
             f"recon: {val_losses['full_recon_loss']:.4f}, "
-            f"smooth: {val_losses['latent_smooth_loss']:.4f}"
+            f"smooth: {val_losses['latent_smooth_loss']:.4f}, "
+            f"reg: {val_losses['latent_reg_loss']:.4f}"
         )
 
         # Epoch-level logging

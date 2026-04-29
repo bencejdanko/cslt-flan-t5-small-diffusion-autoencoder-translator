@@ -97,6 +97,7 @@ class Phase1Config:
     w_full_recon: float = 0.1
     w_latent_smooth: float = 0.01
     w_contrastive: float = 0.05
+    w_latent_reg: float = 0.01
 
     # Training
     epochs: int = 3

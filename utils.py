@@ -633,12 +633,19 @@ def compute_phase1_loss(
     if cfg.masking.latent_smoothness:
         L_smooth = torch.mean((z[:, 1:, :] - z[:, :-1, :]) ** 2)
 
+    # Latent regularization (Unit Variance / Mean zero)
+    # This prevents the latent space from collapsing or drifting.
+    L_lat_mean = torch.mean(z)
+    L_lat_var = torch.var(z)
+    L_lat_reg = L_lat_mean**2 + (L_lat_var - 1)**2
+
     # Weighted sum
     total = (
         cfg.w_masked_pos * L_masked_pos
         + cfg.w_masked_vel * L_masked_vel
         + cfg.w_full_recon * L_full
         + cfg.w_latent_smooth * L_smooth
+        + cfg.w_latent_reg * L_lat_reg
     )
 
     loss_dict = {
@@ -647,6 +654,7 @@ def compute_phase1_loss(
         "masked_vel_loss": L_masked_vel.item(),
         "full_recon_loss": L_full.item(),
         "latent_smooth_loss": L_smooth.item(),
+        "latent_reg_loss": L_lat_reg.item(),
     }
 
     return total, loss_dict
