@@ -1,1 +1,9 @@
 __pycache__
+*.pyc
+checkpoints/
+logs/
+wandb/
+*.egg-info/
+dist/
+build/
+.env

@@ -1,27 +1,76 @@
-# Continuous Sign Language Translation (CSLT) with FLAN-T5-small and a Diffusion Autoencoder
+# Continuous Sign Language Translation (CSLT)
 
-Continuous sign language translation (sentence-level translation) remains a relatively niche and unexplored research area. Semantically rich spatio-temporal videos must be modelled to generate text from meaningful features in longer form clips.
+> **Utterance-level sign-to-text translation** using a denoising autoencoder for representation learning and FLAN-T5-small for translation.
+
+## Overview
+
+This project implements a two-phase pipeline for Continuous Sign Language Translation (CSLT), trained on the [How2Sign](https://how2sign.github.io/) dataset with MediaPipe Holistic landmarks.
+
+| Phase | What it does | Key innovation |
+|-------|-------------|----------------|
+| **Phase 1** | Self-supervised pretraining via a DDPM-style denoising autoencoder | Learns a compact motion manifold $Z$ from masked/noisy landmark sequences |
+| **Phase 2** | Supervised translation fine-tuning | Maps $Z$ → English text via attention pooling + adapter → FLAN-T5-small |
+
+At inference time, the diffusion decoder is discarded — only the encoder, adapter, and T5 remain.
+
+## Architecture
+
+```
+Raw Landmarks [B, T, 543, 3]
+        │
+        ▼
+┌─────────────────────────┐
+│  Feature Engineering     │  Face downsample (468→15), normalization,
+│  (data.py)               │  velocity computation
+│  Output: [B, T, 540]    │  (90 keypoints × 6 features)
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│  Multi-Stream Encoder    │  Per-part spatial MLPs (body/face/hands)
+│  (models.py)             │  + learned part embeddings
+│                          │  + positional encoding
+│                          │  + Transformer temporal encoder
+│                          │  + strided Conv1d downsampling (4×)
+│  Output: Z [B, T/4, 512]│
+└────────────┬────────────┘
+             │
+    ┌────────┴────────┐
+    │                 │
+    ▼                 ▼
+┌─────────┐    ┌──────────────┐
+│ Phase 1 │    │  Phase 2     │
+│ DDPM    │    │  Attention   │
+│ Decoder │    │  Pooling     │
+│(discard │    │  → Adapter   │
+│ after   │    │  → FLAN-T5   │
+│ training│    │              │
+└─────────┘    └──────────────┘
+```
+
+### Phase 1: Denoising Pretraining (DDPM)
+
+The encoder is trained with a **proper DDPM objective** — the decoder predicts the noise (epsilon) added to the clean signal, not the clean signal itself.
+
+- **Noise schedule**: linear or cosine beta schedule with precomputed $\bar{\alpha}_t$
+- **Forward process**: $x_t = \sqrt{\bar{\alpha}_t} \cdot x_0 + \sqrt{1 - \bar{\alpha}_t} \cdot \epsilon$
+- **Training objective**: $\mathcal{L} = \| \epsilon - \epsilon_\theta(x_t, Z, t) \|^2$
+- **Structured masking**: configurable feature corruption, time-span masking, whole-part dropout
+
+The decoder uses per-part prediction heads (body, face, left hand, right hand) for position and velocity independently.
+
+### Phase 2: Translation Fine-tuning
+
+- **Utterance-level training**: full sign sequences paired with complete sentences (no chunk-level supervision)
+- **Attention pooling**: learned query vectors attend over the variable-length encoder output to produce a fixed-length representation
+- **Staged unfreezing**: encoder frozen during warmup → joint training with per-group LRs
+- **Optional CTC alignment head**: latent alignment auxiliary loss for temporal structure
 
 ## Data Sources
 
-### [bdanko/how2sign-rgb-front-clips](https://huggingface.co/datasets/bdanko/how2sign-rgb-front-clips)
-
-A WebDataset-formatted repository of the frontal RGB clips, sharded for high-speed streaming.
-
-```python
-from datasets import load_dataset
-
-# Access the video bytes directly via streaming
-ds = load_dataset("bdanko/how2sign-rgb-front-clips", split="train", streaming=True)
-sample = next(iter(ds))
-
-print(f"ID: {sample['__key__']}")
-print(f"Video bytes: {len(sample['mp4'])} bytes")
-```
-
 ### [bdanko/how2sign-landmarks-front-raw-parquet](https://huggingface.co/datasets/bdanko/how2sign-landmarks-front-raw-parquet)
 
-Optimized Parquet shards containing raw MediaPipe Holistic landmarks (543 keypoints per frame). This allows for on-the-fly feature engineering without the overhead of massive `.npy` file extractions.
+Parquet shards with raw MediaPipe Holistic landmarks (543 keypoints/frame).
 
 ```python
 from datasets import load_dataset
@@ -29,86 +78,177 @@ import numpy as np
 
 dataset = load_dataset("bdanko/how2sign-landmarks-front-raw-parquet", split="train", streaming=True)
 sample = next(iter(dataset))
-
-# Landmarks are stored as binary float32 to save space
 landmarks = np.frombuffer(sample['features'], dtype=np.float32).reshape(sample['shape'])
-
-print(f"Video ID: {sample['video_id']}")
-print(f"Sentence: {sample['sentence']}")
-print(f"Shape: {landmarks.shape}") # [Frames, 543, 3]
+print(f"Shape: {landmarks.shape}")  # [Frames, 543, 3]
 ```
 
+### [bdanko/how2sign-rgb-front-clips](https://huggingface.co/datasets/bdanko/how2sign-rgb-front-clips)
 
-Notes
-* **Synchronization**: The `video_id` in landmarks matches the `__key__` in the RGB clips.
-* **Keypoints**: 543 points (33 Pose, 468 Face, 21 Left Hand, 21 Right Hand).
-* **Spatial Data**: Coordinates are normalized (0.0 to 1.0) relative to the original frame dimensions.
-Citation
+WebDataset-formatted frontal RGB clips for visualization/verification.
 
-## Approach: Diffusion-Regularized Continuous Translation
+## Quick Start
 
-This project implements a novel Continuous Sign Language Translation (CSLT) architecture optimized for edge deployment on an NVIDIA Jetson AGX Orin. The AGX Orin is unique, in that it features native Tensor Core support for 2:4 Structured Sparsity, which we can leverage.
+### Install
 
-To bypass the latency of real-time diffusion while retaining its massive representational power, we utilize a **Two-Phase Diffusion Autoencoder Paradigm**. We use a 1D Latent Diffusion model strictly as a training regularizer to learn a smooth, continuous manifold of human motion ($Z$). During real-time inference, the heavy diffusion decoder is discarded, allowing a frozen semantic encoder and a lightweight Transformer (FLAN-T5-small) to achieve high-FPS sequence-to-sequence translation.
+```bash
+git clone https://github.com/bencejdanko/continuous-sign-language-translation.git
+cd continuous-sign-language-translation
+pip install -r requirements.txt
+```
 
-### System Architecture & Tensor Flow
+### Phase 1: Pretraining
 
-Below is the modular breakdown of the pipeline, including explicit tensor dimensions to guide implementation.
-*Assumed hyperparameters for demonstration: Temporal Window $T=60$ frames, Feature Dim $F=540$ (90 keypoints $\times$ 6 kinematic features), Latent Dim $D=512$, Compressed Time $T'=15$.*
+```bash
+# Smoke test (quick sanity check)
+python phase1_pretrain.py --smoke_test true
 
-#### Module 1: Preprocessing & Feature Engineering
-Raw `.npy` Mediapipe holistic landmarks are spatially normalized to the body center. 
+# Debug run (100 samples)
+python phase1_pretrain.py --max_samples 100 --epochs 3
 
-**Critical Downsampling Step:** ASL grammar relies heavily on Non-Manual Markers (e.g., raised eyebrows for yes/no questions). However, the full Mediapipe face mesh provides 468 points, dominating the feature array (~75%) over the hands. To prevent the network from over-indexing on the face while ignoring the hands, we downsample the face mesh to just 15 keypoints (e.g., corners of the mouth, eyebrow arches, and tip of the nose). Combining this with 33 pose points and 42 hand points yields 90 total keypoints.
+# Full training
+python phase1_pretrain.py --max_samples none --epochs 20 --batch_size 16 --mixed_precision true
+```
 
-We calculate the temporal derivatives $(\Delta x, \Delta y, \Delta z)$ to explicitly provide motion vectors.
-* **Input:** Raw coordinate sequences.
-* **Process:** Face mesh downsampling, sliding window chunking, normalization, delta concatenation.
-* **Output Shape:** `[Batch, T, F]` $\rightarrow$ e.g., `[B, 60, 540]`.
+### Phase 2: Fine-tuning
 
-#### Module 2: Phase 1 - Latent Diffusion Autoencoder (Self-Supervised)
-This network is trained to compress spatio-temporal keypoints into a rich, continuous latent representation ($Z$), effectively acting as a "continuous pseudo-gloss."
-* **Sub-module 2A: Semantic Encoder (1D-CNN)**
-    * **Status:** *Trainable* (during Phase 1).
-    * **Input Shape:** `[B, 60, 540]`.
-    * **Process:** 1D convolutions across the time dimension to temporally compress and project the features.
-    * **Output Shape ($Z$):** `[B, 15, 512]`.
-* **Sub-module 2B: Diffusion Decoder (1D-UNet)**
-    * **Status:** *Trainable* (during Phase 1), *Discarded* (after Phase 1).
-    * **Input Shape:** Pure Noise `[B, 60, 540]` + Conditioned on $Z$ `[B, 15, 512]` + Timestep $t$.
-    * **Process:** Iterative DDPM/DDIM denoising to reconstruct the original coordinates.
-    * **Target Output Shape:** `[B, 60, 540]`.
-    * **Loss:** Mean Squared Error (MSE) between original and reconstructed coordinates.
+```bash
+# Smoke test
+python phase2_finetune.py --smoke_test true
 
-#### Module 3: Phase 2 - Latent-to-Text Translation
-Once Phase 1 converges, the Diffusion Decoder is deleted. The Semantic Encoder is frozen. We train a lightweight language model to map the continuous manifold $Z$ to English text.
-* **Sub-module 3A: Frozen Semantic Encoder**
-    * **Status:** *Frozen*.
-    * **Input Shape:** `[B, 60, 540]`.
-    * **Output Shape ($Z$):** `[B, 15, 512]`.
-* **Sub-module 3B: FLAN-T5-small Translator (`google/flan-t5-small`)**
-    * **Status:** *Trainable* (Fine-tuning only the cross-attention and decoder blocks).
-    * **Input Shape:** Encoder hidden states ($Z$) `[B, 15, 512]`.
-    * **Process:** Cross-attention maps the continuous motion latent to discrete text tokens.
-    * **Target Output Shape:** `[B, Sequence_Length]` (English Token IDs).
-    * **Loss:** Standard Cross-Entropy Language Modeling Loss.
+# Debug run
+python phase2_finetune.py --max_samples 100 --epochs 3 --phase1_ckpt checkpoints/phase1
 
-#### Module 4: Edge Deployment Pipeline (AGX Orin)
-For real-time inference, the pipeline is strictly a forward-pass sequence. No iterative diffusion occurs at runtime.
-1.  **Stream:** Webcam $\rightarrow$ Mediapipe $\rightarrow$ `[1, 60, 540]` tensor buffer.
-2.  **Encode:** Buffer $\rightarrow$ Frozen Semantic Encoder $\rightarrow$ $Z$ `[1, 15, 512]`.
-3.  **Translate:** $Z$ $\rightarrow$ FLAN-T5-small $\rightarrow$ English String.
+# Full training with attention pooling + CTC
+python phase2_finetune.py \
+    --max_samples none \
+    --epochs 10 \
+    --batch_size 4 \
+    --use_attention_pooling true \
+    --use_ctc_head true \
+    --phase1_ckpt checkpoints/phase1
+```
+
+### Inference
+
+```bash
+python inference.py --ckpt_dir checkpoints/phase2 --num_samples 5
+```
+
+### Colab Notebooks
+
+The repository includes thin Colab notebook wrappers:
+- `colab_phase1_diffusion.ipynb` — clones repo, installs deps, runs Phase 1
+- `colab_phase2_translation.ipynb` — clones repo, installs deps, runs Phase 2
+
+## Project Structure
+
+```
+├── config.py                   # Dataclass configs + CLI parsing
+├── models.py                   # All model architectures
+├── data.py                     # Dataset, feature engineering, collator
+├── utils.py                    # Training utilities, metrics, checkpointing
+├── phase1_pretrain.py          # Phase 1 training script
+├── phase2_finetune.py          # Phase 2 training script
+├── inference.py                # Standalone inference
+├── requirements.txt            # Dependencies
+├── colab_phase1_diffusion.ipynb
+├── colab_phase2_translation.ipynb
+└── README.md
+```
+
+## Configuration
+
+All hyperparameters are configurable via CLI arguments or by editing the dataclass defaults in `config.py`.
+
+### Key Phase 1 options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--epochs` | 3 | Training epochs |
+| `--batch_size` | 32 | Batch size |
+| `--lr` | 1e-4 | Learning rate |
+| `--latent_dim` | 512 | Encoder latent dimension |
+| `--use_part_embeddings` | true | Learned part embeddings before fusion |
+| `--ddpm_schedule_type` | linear | Noise schedule (linear/cosine) |
+| `--mask_feature_corruption` | true | Enable random feature corruption |
+| `--mask_time_span_masking` | true | Enable time-span masking |
+| `--mask_whole_part_masking` | true | Enable whole-part dropout |
+| `--mask_contrastive_consistency` | false | Enable contrastive loss between augmentations |
+| `--mixed_precision` | false | FP16 mixed precision training |
+
+### Key Phase 2 options
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `--epochs` | 3 | Training epochs |
+| `--warmup_epochs` | 1 | Epochs with encoder frozen |
+| `--lr_encoder` | 5e-6 | Encoder learning rate (joint stage) |
+| `--lr_adapter` | 1e-4 | Adapter learning rate |
+| `--lr_t5` | 5e-5 | T5 learning rate |
+| `--use_attention_pooling` | true | Attention-based temporal aggregation |
+| `--use_ctc_head` | false | Latent CTC alignment auxiliary loss |
+| `--num_beams` | 4 | Beam search width for generation |
+
+## Evaluation Metrics
+
+Phase 2 computes the following metrics at each epoch:
+
+| Metric | Library | Description |
+|--------|---------|-------------|
+| **BLEU** | SacreBLEU | Standard corpus-level BLEU |
+| **ROUGE-L** | Built-in LCS | Longest common subsequence F1 |
+| **chrF** | SacreBLEU | Character n-gram F-score |
+| **Exact Match** | — | Percentage of exactly matching predictions |
+| **Avg Length** | — | Mean prediction/reference token count |
+
+## Checkpoints
+
+Each checkpoint directory contains:
+
+```
+checkpoints/phase2/best/
+├── model.pt          # Full model state dict
+├── encoder.pt        # Encoder weights (for Phase 1→2 transfer)
+├── adapter.pt        # Adapter weights
+├── optimizer.pt      # Optimizer state
+├── config.json       # Complete training configuration
+├── metrics.json      # Metric summary at save time
+├── metadata.json     # Epoch, step, git hash, seed, timestamp
+└── tokenizer/        # T5 tokenizer files
+```
+
+## Logging
+
+Supports multiple backends via `--log_backend`:
+
+| Backend | Flag | Output |
+|---------|------|--------|
+| CSV | `csv` (default) | `logs/train_log.csv` |
+| JSONL | `jsonl` | `logs/train_log.jsonl` |
+| Weights & Biases | `wandb` | Dashboard |
+| TensorBoard | `tensorboard` | Event files |
+
+## Edge Deployment
+
+For real-time inference on NVIDIA Jetson AGX Orin, the pipeline is a simple forward pass:
+
+1. Webcam → MediaPipe → `[1, T, 540]` feature buffer
+2. Frozen Encoder → $Z$ `[1, T/4, 512]`
+3. Attention Pool → Adapter → FLAN-T5 → English text
+
+The diffusion decoder is not used at inference time.
 
 ## Demonstration
 
-The associated demonstration repository can be found at https://github.com/bencejdanko/continuous-sign-language-demonstration. This loads pose, hands and face Mediapipe Holistic models, and runs them in parallel to be sent to our inference server.
+The associated demo repository: [bencejdanko/continuous-sign-language-demonstration](https://github.com/bencejdanko/continuous-sign-language-demonstration)
 
 ## Model Availability
 
-All available at `bdanko/continuous-sign-language-translation`
+Models available at [`bdanko/continuous-sign-language-translation`](https://huggingface.co/bdanko/continuous-sign-language-translation)
 
 ## Citations
 
+```bibtex
 @inproceedings{Duarte_CVPR2021,
     title={{How2Sign: A Large-scale Multimodal Dataset for Continuous American Sign Language}},
     author={Duarte, Amanda and Palaskar, Shruti and Ventura, Lucas and Ghadiyaram, Deepti and DeHaan, Kenneth and
@@ -116,7 +256,8 @@ All available at `bdanko/continuous-sign-language-translation`
     booktitle={Conference on Computer Vision and Pattern Recognition (CVPR)},
     year={2021}
 }
+```
 
-Duarte, A., Palaskar, S., Ventura, L., Ghadiyaram, D., DeHaan, K., Metze, F., Torres, J., & Giro-i-Nieto, X. “How2Sign: A Large-scale Multimodal Dataset for Continuous American Sign Language.” Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2021.
+---
 
-ASL, Sign Language, Mediapipe, Holistic, Pose Landmarks, Hand Landmarks, Face Landmarks, Keypoints, Motion Capture, Time Series, Gesture Recognition, Computer Vision, Deep Learning, Sequence Modeling
+*Keywords: ASL, Sign Language, MediaPipe, Holistic, Pose Landmarks, Hand Landmarks, Face Landmarks, Keypoints, Motion Capture, Time Series, Gesture Recognition, Computer Vision, Deep Learning, Sequence Modeling, DDPM, Denoising Diffusion, FLAN-T5, Translation*
