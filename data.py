@@ -2,23 +2,20 @@
 data.py — Dataset classes, feature engineering, and collation for CSLT.
 
 Key design decisions:
-  - UtteranceLevelDataset: loads full utterances (no chunking) so the model
-    sees the complete sign sequence paired with its sentence.  This eliminates
-    the noisy "each chunk gets the whole sentence" supervision.
-  - SignLanguageCollator: variable-length padding, mask creation, and optional
-    text tokenization — all in one place.
-  - Feature engineering is identical to the v2 notebooks but factored into
-    reusable functions.
+  - UtteranceLevelDataset: loads full utterances (no chunking).
+  - Handles both Streaming (Iterable) and Local (Map-style) modes.
+  - Multi-worker support for Local mode.
 """
 
 from __future__ import annotations
 
+import logging
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, IterableDataset
+from torch.utils.data import DataLoader, Dataset, IterableDataset
 
 from config import (
     FACE_LANDMARK_IDXS,
@@ -29,6 +26,7 @@ from config import (
     RHAND_SLICE,
 )
 
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Feature engineering
@@ -83,116 +81,92 @@ def engineer_features_multistream(raw: np.ndarray) -> Optional[Dict[str, torch.T
         "rhand_vel": torch.from_numpy(calc_vel(rhand_norm).reshape(T, -1).astype(np.float32)),
     }
 
-
 # ---------------------------------------------------------------------------
-# Utterance-level dataset (no chunking)
+# Dataset Implementations
 # ---------------------------------------------------------------------------
-class UtteranceLevelDataset(IterableDataset):
-    """
-    Streams full utterances from the HuggingFace dataset.
 
-    Each sample is a complete sign sequence paired with its sentence.
-    No sliding window / chunking — variable lengths are handled by the collator.
-    """
+def _process_sample(sample):
+    """Common sample processing logic."""
+    raw = np.frombuffer(sample["features"], dtype=np.float32).reshape(sample["shape"])
+    feat_dict = engineer_features_multistream(raw)
+    if feat_dict is None:
+        return None
+    return {
+        "features": feat_dict,
+        "seq_len": feat_dict["body_pos"].shape[0],
+        "sentence": sample.get("sentence", ""),
+    }
 
-    def __init__(
-        self,
-        split: str = "train",
-        max_samples: Optional[int] = None,
-        repo_id: str = "bdanko/how2sign-landmarks-front-raw-parquet",
-        shuffle_buffer: int = 1000,
-    ):
+class UtteranceLevelStreamingDataset(IterableDataset):
+    """Streaming version (Iterable)."""
+    def __init__(self, split, repo_id, max_samples, shuffle_buffer):
         self.split = split
-        self.max_samples = max_samples
         self.repo_id = repo_id
+        self.max_samples = max_samples
         self.shuffle_buffer = shuffle_buffer
 
     def __iter__(self):
         from datasets import load_dataset
-
         ds = load_dataset(self.repo_id, split=self.split, streaming=True)
-        
-        # Apply shuffling if split is 'train' and buffer > 0
         if "train" in self.split and self.shuffle_buffer > 0:
             ds = ds.shuffle(seed=None, buffer_size=self.shuffle_buffer)
-            
+        
         count = 0
         for sample in ds:
             if self.max_samples and count >= self.max_samples:
                 break
-            raw = np.frombuffer(
-                sample["features"], dtype=np.float32
-            ).reshape(sample["shape"])
-            feat_dict = engineer_features_multistream(raw)
-            if feat_dict is None:
-                continue
+            out = _process_sample(sample)
+            if out:
+                yield out
+                count += 1
 
-            seq_len = feat_dict["body_pos"].shape[0]
-            sentence = sample.get("sentence", "")
+class UtteranceLevelMapDataset(Dataset):
+    """Local version (Map-style)."""
+    def __init__(self, split, repo_id, max_samples):
+        from datasets import load_dataset
+        logger.info(f"Loading/Downloading dataset split '{split}'...")
+        self.ds = load_dataset(repo_id, split=split, streaming=False)
+        if max_samples:
+            self.ds = self.ds.select(range(min(max_samples, len(self.ds))))
+        logger.info(f"Dataset loaded: {len(self.ds)} samples.")
 
-            yield {
-                "features": feat_dict,
-                "seq_len": seq_len,
-                "sentence": sentence,
-            }
-            count += 1
+    def __len__(self):
+        return len(self.ds)
 
+    def __getitem__(self, idx):
+        out = _process_sample(self.ds[idx])
+        if out is None:
+            # Return a small dummy or handle error
+            return self.__getitem__((idx + 1) % len(self.ds))
+        return out
 
 # ---------------------------------------------------------------------------
 # Collator
 # ---------------------------------------------------------------------------
 class SignLanguageCollator:
-    """
-    Batches variable-length sign sequences with proper padding and masks.
-
-    Handles:
-      - Padding each part tensor to the max length in the batch
-      - Creating src_key_padding_mask (True = padding position)
-      - Optional text tokenization (for Phase 2)
-      - Setting label pad tokens to -100 for CrossEntropy
-    """
-
-    def __init__(
-        self,
-        tokenizer=None,
-        max_target_length: int = 128,
-        phase: int = 1,
-    ):
+    def __init__(self, tokenizer=None, max_target_length=128, phase=1):
         self.tokenizer = tokenizer
         self.max_target_length = max_target_length
         self.phase = phase
 
-    def __call__(
-        self, batch: List[dict]
-    ) -> dict:
-        """
-        Args:
-            batch: list of dicts from UtteranceLevelDataset
+    def __call__(self, batch: List[dict]) -> dict:
+        batch = [b for b in batch if b is not None]
+        if not batch: return {}
 
-        Returns:
-            dict with:
-              - features: dict of padded tensors [B, T_max, dim]
-              - padding_mask: [B, T_max] bool
-              - seq_lens: [B] int tensor
-              - sentences: list of str (if phase 2)
-              - labels: [B, L] token ids with -100 for padding (if phase 2)
-        """
         seq_lens = [item["seq_len"] for item in batch]
         max_len = max(seq_lens)
 
-        # Pad features
         padded_features = {}
         for key in PART_KEYS:
             tensors = []
             for item in batch:
-                t = item["features"][key]  # [T_i, dim]
+                t = item["features"][key]
                 pad_len = max_len - t.shape[0]
                 if pad_len > 0:
-                    t = F.pad(t, (0, 0, 0, pad_len))  # pad time dim
+                    t = F.pad(t, (0, 0, 0, pad_len))
                 tensors.append(t)
-            padded_features[key] = torch.stack(tensors)  # [B, T_max, dim]
+            padded_features[key] = torch.stack(tensors)
 
-        # Padding mask: True where padded
         padding_mask = torch.zeros(len(batch), max_len, dtype=torch.bool)
         for i, sl in enumerate(seq_lens):
             padding_mask[i, sl:] = True
@@ -203,24 +177,18 @@ class SignLanguageCollator:
             "seq_lens": torch.tensor(seq_lens, dtype=torch.long),
         }
 
-        # Phase 2: tokenize sentences
         if self.phase == 2 and self.tokenizer is not None:
             sentences = [item["sentence"] for item in batch]
             result["sentences"] = sentences
-
             tokenized = self.tokenizer(
-                sentences,
-                return_tensors="pt",
-                padding=True,
-                truncation=True,
-                max_length=self.max_target_length,
+                sentences, return_tensors="pt", padding=True, truncation=True,
+                max_length=self.max_target_length
             )
             labels = tokenized.input_ids.clone()
             labels[labels == self.tokenizer.pad_token_id] = -100
             result["labels"] = labels
 
         return result
-
 
 # ---------------------------------------------------------------------------
 # DataLoader factory
@@ -234,20 +202,24 @@ def create_dataloader(
     max_target_length: int = 128,
     phase: int = 1,
     shuffle_buffer: int = 1000,
+    streaming: bool = True,
 ) -> DataLoader:
-    """Create a DataLoader with the utterance-level dataset and collator."""
-    dataset = UtteranceLevelDataset(
-        split=split, max_samples=max_samples, repo_id=repo_id,
-        shuffle_buffer=shuffle_buffer
-    )
-    collator = SignLanguageCollator(
-        tokenizer=tokenizer,
-        max_target_length=max_target_length,
-        phase=phase,
-    )
+    if streaming:
+        dataset = UtteranceLevelStreamingDataset(split, repo_id, max_samples, shuffle_buffer)
+        num_workers = 0
+        shuffle = False # IterableDataset handles shuffle internally
+    else:
+        dataset = UtteranceLevelMapDataset(split, repo_id, max_samples)
+        num_workers = 4 # Parallel preprocessing!
+        shuffle = (split == "train")
+
+    collator = SignLanguageCollator(tokenizer=tokenizer, max_target_length=max_target_length, phase=phase)
+    
     return DataLoader(
         dataset,
         batch_size=batch_size,
         collate_fn=collator,
-        num_workers=0,  # IterableDataset with streaming
+        num_workers=num_workers,
+        shuffle=shuffle,
+        pin_memory=True if torch.cuda.is_available() else False,
     )

@@ -101,6 +101,7 @@ def train_phase1(cfg: Phase1Config):
         repo_id=cfg.dataset_repo,
         phase=1,
         shuffle_buffer=cfg.shuffle_buffer,
+        streaming=cfg.streaming,
     )
     val_loader = create_dataloader(
         split="validation",
@@ -109,6 +110,7 @@ def train_phase1(cfg: Phase1Config):
         repo_id=cfg.dataset_repo,
         phase=1,
         shuffle_buffer=cfg.shuffle_buffer,
+        streaming=cfg.streaming,
     )
 
     # --- Models ---

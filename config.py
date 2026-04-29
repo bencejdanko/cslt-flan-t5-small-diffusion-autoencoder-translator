@@ -121,6 +121,7 @@ class Phase1Config:
     wandb_project: str = "cslt-phase1"
     log_every_n_steps: int = 10
     shuffle_buffer: int = 1000
+    streaming: bool = True
 
     # Smoke test
     smoke_test: bool = False
@@ -200,6 +201,7 @@ class Phase2Config:
     wandb_project: str = "cslt-phase2"
     log_every_n_steps: int = 10
     shuffle_buffer: int = 1000
+    streaming: bool = True
 
     # Smoke test
     smoke_test: bool = False
