@@ -1,0 +1,21 @@
+# Core
+torch>=2.0
+numpy>=1.24
+
+# Data
+datasets>=2.14
+huggingface_hub>=0.16
+
+# Models
+transformers>=4.35
+sentencepiece>=0.1.99
+
+# Evaluation
+sacrebleu>=2.3
+
+# Training utilities
+tqdm>=4.65
+
+# Optional: Logging backends (uncomment as needed)
+# wandb>=0.15
+# tensorboard>=2.14
