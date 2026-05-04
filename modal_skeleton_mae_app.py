@@ -880,13 +880,13 @@ def finetune(cfg_json: Optional[str] = None):
 # Local CLI dispatch
 # ---------------------------------------------------------------------------
 @app.local_entrypoint()
-def main(stage: str = "pretrain", subset: int = 100, **kw):
+def main(stage: str = "pretrain", subset: int = 100):
     """Stages: extract | pretrain | finetune."""
     if stage == "extract":
         result = extract_wlasl.remote(subset=subset)
         print(json.dumps(result, indent=2))
     elif stage == "pretrain":
-        cfg = PretrainConfig(**kw).__dict__
+        cfg = PretrainConfig().__dict__
         # tuples come back as lists from JSON; pretrain entrypoint normalizes via tuple(...).
         cfg.pop("encoder_channels", None)
         cfg.pop("decoder_channels", None)
@@ -894,9 +894,11 @@ def main(stage: str = "pretrain", subset: int = 100, **kw):
         result = pretrain.remote(json.dumps(kw_clean))
         print(json.dumps(result, indent=2))
     elif stage == "finetune":
-        kw.setdefault("wlasl_parquet", f"/wlasl/wlasl{subset}.parquet")
-        kw.setdefault("num_classes", subset)
-        kw.setdefault("ckpt_dir", f"/ckpt/wlasl{subset}")
+        kw = {
+            "wlasl_parquet": f"/wlasl/wlasl{subset}.parquet",
+            "num_classes": subset,
+            "ckpt_dir": f"/ckpt/wlasl{subset}",
+        }
         result = finetune.remote(json.dumps(kw))
         print(json.dumps(result, indent=2))
     else:
