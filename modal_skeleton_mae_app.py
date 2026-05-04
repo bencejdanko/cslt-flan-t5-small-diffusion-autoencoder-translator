@@ -723,6 +723,8 @@ def _build_wlasl_loaders(cfg: FinetuneConfig):
     timeout=60 * 60 * 12,
 )
 def pretrain(cfg_json: Optional[str] = None):
+    import time
+
     cfg = PretrainConfig(**(json.loads(cfg_json) if cfg_json else {}))
     torch.manual_seed(cfg.seed)
     random.seed(cfg.seed)
@@ -743,10 +745,34 @@ def pretrain(cfg_json: Optional[str] = None):
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=cfg.epochs)
 
     os.makedirs(cfg.ckpt_dir, exist_ok=True)
+
+    # Load checkpoint and history if they exist
     best = float("inf")
-    for ep in range(cfg.epochs):
+    start_epoch = 0
+    best_ckpt_path = os.path.join(cfg.ckpt_dir, "best.pt")
+    history_path = os.path.join(cfg.ckpt_dir, "history.jsonl")
+    history = []
+
+    if os.path.exists(best_ckpt_path):
+        print(f"[pretrain] loading checkpoint from {best_ckpt_path}")
+        ckpt = torch.load(best_ckpt_path, map_location=device)
+        model.load_state_dict(ckpt["mae_state"])
+        opt.load_state_dict(ckpt.get("opt_state", opt.state_dict()))
+        sched.load_state_dict(ckpt.get("sched_state", sched.state_dict()))
+        best = ckpt.get("loss", float("inf"))
+        start_epoch = ckpt.get("epoch", 0) + 1
+        print(f"[pretrain] resuming from epoch {start_epoch}, best_loss={best:.4f}")
+
+    if os.path.exists(history_path):
+        print(f"[pretrain] loading history from {history_path}")
+        with open(history_path, "r") as f:
+            history = [json.loads(line) for line in f]
+        print(f"[pretrain] loaded {len(history)} history entries")
+
+    for ep in range(start_epoch, cfg.epochs):
         model.train()
         running, n_clips, step = 0.0, 0, 0
+        ep_start = time.time()
         for x in iter_pretrain_batches(cfg):
             x = x.to(device, non_blocking=True)
             loss, _ = model(x)
@@ -762,23 +788,48 @@ def pretrain(cfg_json: Optional[str] = None):
         sched.step()
         avg = running / max(1, n_clips)
         peak_mb = torch.cuda.max_memory_allocated() / 1024**2 if device == "cuda" else 0
-        print(f"[pretrain] epoch {ep} done  avg_mse={avg:.4f}  peak_vram_MB={peak_mb:.0f}")
+        ep_time = time.time() - ep_start
+        current_lr = opt.param_groups[0]["lr"]
+
+        # Log to history
+        history_entry = {
+            "epoch": ep,
+            "avg_mse": avg,
+            "peak_vram_mb": peak_mb,
+            "time_sec": ep_time,
+            "lr": current_lr,
+            "n_clips": n_clips,
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        history.append(history_entry)
+
+        print(f"[pretrain] epoch {ep} done  avg_mse={avg:.4f}  peak_vram_MB={peak_mb:.0f}  time={ep_time:.1f}s  lr={current_lr:.2e}")
+
+        # Save history
+        with open(history_path, "w") as f:
+            for entry in history:
+                f.write(json.dumps(entry) + "\n")
+
         if avg < best:
             best = avg
-            ckpt_path = os.path.join(cfg.ckpt_dir, "best.pt")
             torch.save(
                 {
                     "encoder_state": model.encoder.state_dict(),
                     "mae_state": model.state_dict(),
+                    "opt_state": opt.state_dict(),
+                    "sched_state": sched.state_dict(),
                     "cfg": cfg.__dict__,
                     "epoch": ep,
                     "loss": best,
                 },
-                ckpt_path,
+                best_ckpt_path,
             )
-            ckpt_vol.commit()
-            print(f"[pretrain] saved best to {ckpt_path}")
-    return {"best_loss": best}
+            print(f"[pretrain] saved best to {best_ckpt_path}")
+
+        ckpt_vol.commit()
+
+    print(f"[pretrain] training complete. best_loss={best:.4f}")
+    return {"best_loss": best, "final_epoch": cfg.epochs - 1, "history_entries": len(history)}
 
 
 # ---------------------------------------------------------------------------
@@ -806,6 +857,8 @@ def _evaluate(model, loader, device):
     timeout=60 * 60 * 8,
 )
 def finetune(cfg_json: Optional[str] = None):
+    import time
+
     cfg = FinetuneConfig(**(json.loads(cfg_json) if cfg_json else {}))
     torch.manual_seed(cfg.seed)
     random.seed(cfg.seed)
@@ -838,10 +891,34 @@ def finetune(cfg_json: Optional[str] = None):
     train_loader, val_loader = _build_wlasl_loaders(cfg)
 
     os.makedirs(cfg.ckpt_dir, exist_ok=True)
+
+    # Load checkpoint and history if they exist
     best_top1 = 0.0
-    for ep in range(cfg.epochs):
+    start_epoch = 0
+    best_ckpt_path = os.path.join(cfg.ckpt_dir, "best.pt")
+    history_path = os.path.join(cfg.ckpt_dir, "history.jsonl")
+    history = []
+
+    if os.path.exists(best_ckpt_path):
+        print(f"[finetune] loading checkpoint from {best_ckpt_path}")
+        ckpt = torch.load(best_ckpt_path, map_location=device)
+        model.load_state_dict(ckpt["model_state"])
+        opt.load_state_dict(ckpt.get("opt_state", opt.state_dict()))
+        sched.load_state_dict(ckpt.get("sched_state", sched.state_dict()))
+        best_top1 = ckpt.get("top1", 0.0)
+        start_epoch = ckpt.get("epoch", 0) + 1
+        print(f"[finetune] resuming from epoch {start_epoch}, best_top1={best_top1:.3f}")
+
+    if os.path.exists(history_path):
+        print(f"[finetune] loading history from {history_path}")
+        with open(history_path, "r") as f:
+            history = [json.loads(line) for line in f]
+        print(f"[finetune] loaded {len(history)} history entries")
+
+    for ep in range(start_epoch, cfg.epochs):
         model.train()
         running, n_obs = 0.0, 0
+        ep_start = time.time()
         for x, y in train_loader:
             x = x.to(device, non_blocking=True)
             y = y.to(device, non_blocking=True)
@@ -855,25 +932,51 @@ def finetune(cfg_json: Optional[str] = None):
         sched.step()
         top1, top5 = _evaluate(model, val_loader, device)
         peak_mb = torch.cuda.max_memory_allocated() / 1024**2 if device == "cuda" else 0
+        ep_time = time.time() - ep_start
+        train_loss = running / max(1, n_obs)
+
+        # Log to history
+        history_entry = {
+            "epoch": ep,
+            "train_loss": train_loss,
+            "val_top1": top1,
+            "val_top5": top5,
+            "peak_vram_mb": peak_mb,
+            "time_sec": ep_time,
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        history.append(history_entry)
+
         print(
-            f"[finetune] ep{ep} train_loss={running/max(1,n_obs):.4f} "
-            f"val_top1={top1:.3f} val_top5={top5:.3f} peak_vram_MB={peak_mb:.0f}"
+            f"[finetune] ep{ep} train_loss={train_loss:.4f} "
+            f"val_top1={top1:.3f} val_top5={top5:.3f} peak_vram_MB={peak_mb:.0f} time={ep_time:.1f}s"
         )
+
+        # Save history
+        with open(history_path, "w") as f:
+            for entry in history:
+                f.write(json.dumps(entry) + "\n")
+
         if top1 > best_top1:
             best_top1 = top1
             torch.save(
                 {
                     "model_state": model.state_dict(),
+                    "opt_state": opt.state_dict(),
+                    "sched_state": sched.state_dict(),
                     "cfg": cfg.__dict__,
                     "epoch": ep,
                     "top1": top1,
                     "top5": top5,
                 },
-                os.path.join(cfg.ckpt_dir, "best.pt"),
+                best_ckpt_path,
             )
-            ckpt_vol.commit()
             print(f"[finetune] saved new best (top1={top1:.3f})")
-    return {"best_top1": best_top1}
+
+        ckpt_vol.commit()
+
+    print(f"[finetune] training complete. best_top1={best_top1:.3f}")
+    return {"best_top1": best_top1, "final_epoch": cfg.epochs - 1, "history_entries": len(history)}
 
 
 # ---------------------------------------------------------------------------
