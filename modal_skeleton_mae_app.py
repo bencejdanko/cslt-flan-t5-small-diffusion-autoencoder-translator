@@ -34,11 +34,11 @@ image = (
     modal.Image.debian_slim(python_version="3.11")
     .pip_install(
         "torch==2.3.1",
-        "datasets",
-        "huggingface_hub",
+        "datasets==2.18.0",
+        "huggingface_hub==0.21.0",
         "numpy",
         "tqdm",
-        "pyarrow",
+        "pyarrow==15.0.0",
         "pandas",
     )
 )
@@ -46,14 +46,17 @@ image = (
 extract_image = (
     modal.Image.debian_slim(python_version="3.11")
     .apt_install("ffmpeg", "libgl1", "libglib2.0-0")
+    # Module import pulls in torch/nn; CPU wheel avoids CUDA stack on extract-only containers.
     .pip_install(
         "numpy",
         "pandas",
-        "pyarrow",
+        "pyarrow==15.0.0",
         "tqdm",
+        "torch==2.3.1+cpu",
         "opencv-python-headless==4.10.0.84",
         "mediapipe==0.10.14",
         "yt-dlp",
+        extra_index_url="https://download.pytorch.org/whl/cpu",
     )
 )
 
