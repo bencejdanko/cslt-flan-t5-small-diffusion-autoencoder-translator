@@ -1,0 +1,594 @@
+✓ Initialized. View run at 
+https://modal.com/apps/mrcyrilgoud/main/ap-1OEyjMxps0wRBfP6cxVd2x
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/mrcyrilgoud/Desktop/repos/cslt-flan-t5-small-diffusion-autoencoder/mo
+│   dal_translation_app.py
+└── 🔨 Created function train.
+
+[main] launching translation training (mode=train)...
+[train] mode=train
+[train] loading data...
+
+[1ADownloading readme: 0.00B [00:00, ?B/s]
+[1ADownloading readme: 3.09kB [00:00, 10.8MB/s]
+Repo card metadata block was not found. Setting CardData to empty.
+Repo card metadata block was not found. Setting CardData to empty.
+[train] train=31046 val=500 samples
+[train] total_params=260,247,681 trainable=12,669,825
+trainable params: 1,769,472 || all params: 249,347,328 || trainable%: 0.7096414524241463
+[train] resumed from epoch 2, best_bleu=0.265
+/usr/local/lib/python3.11/site-packages/torch/nn/modules/transformer.py:408: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. (Triggered internally at ../aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(output, src_key_padding_mask.logical_not(), mask_check=False)
+[train] ep2 stage=warmup loss=15.6453 bleu=N/A rouge_l=N/A time=759.9s
+[train] ep3 stage=warmup loss=11.5065 bleu=N/A rouge_l=N/A time=749.4s
+
+  --- Sample predictions (epoch 4) ---
+  REF: I'll show you.
+  PRD: You're going to have a lot of fun with it.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: You're going to have a lot of fun with it.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You're going to want to make sure that you don't have a lot of space in your room.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: You're going to want to make sure that you don't have a lot of money in your bank account.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: You're going to have a lot of fun with it.
+
+[train] ep4 stage=warmup loss=10.1468 bleu=1.831999828070946 rouge_l=14.32679982480019 time=753.6s
+[train] saved new best (bleu=1.832)
+[train] ep5 stage=joint loss=4.5024 bleu=N/A rouge_l=N/A time=901.9s
+[train] ep6 stage=joint loss=4.4932 bleu=N/A rouge_l=N/A time=880.6s
+[train] ep7 stage=joint loss=4.4872 bleu=N/A rouge_l=N/A time=874.8s
+[train] ep8 stage=joint loss=4.4732 bleu=N/A rouge_l=N/A time=857.4s
+
+  --- Sample predictions (epoch 9) ---
+  REF: I'll show you.
+  PRD: It's going to be a lot of fun.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: You're going to want to make sure that you don't have a lot of hair on your body.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You're going to want to make sure that you don't have a lot of hair on your body.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: You're going to want to make sure that you don't have a lot of space in your room, because it's going to be very difficult for you to get the right amount of space.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: You're going to want to make sure that you don't have a lot of hair on your body.
+
+[train] ep9 stage=joint loss=4.4673 bleu=2.096838091470855 rouge_l=14.278964088326415 time=920.4s
+[train] saved new best (bleu=2.097)
+[train] ep10 stage=joint loss=4.4620 bleu=N/A rouge_l=N/A time=903.8s
+[train] ep11 stage=joint loss=4.4556 bleu=N/A rouge_l=N/A time=902.7s
+[train] ep12 stage=joint loss=4.4516 bleu=N/A rouge_l=N/A time=912.3s
+[train] ep13 stage=joint loss=4.4501 bleu=N/A rouge_l=N/A time=911.9s
+
+  --- Sample predictions (epoch 14) ---
+  REF: I'll show you.
+  PRD: I'm going to show you how to do that.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: You're going to want to make sure that you don't have a lot of hair on your body.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You're going to want to make sure that you don't have a lot of money in your bank account.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: You're going to want to make sure that you don't have a lot of space in your room, because it's going to be very difficult for you to get out of the room.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: I'm going to show you how to do this.
+
+[train] ep14 stage=joint loss=4.4435 bleu=2.0224820095987837 rouge_l=14.445794538406576 time=899.8s[[train] ep15 stage=joint loss=4.4417 bleu=N/A rouge_l=N/A time=944.7s[[train] ep16 stage=joint loss=4.4362 bleu=N/A rouge_l=N/A time=940.4s[[train] ep17 stage=joint loss=4.4326 bleu=N/A rouge_l=N/A time=936.0s[[train] ep18 stage=joint loss=4.4313 bleu=N/A rouge_l=N/A time=930.2s
+
+  --- Sample predictions (epoch 19) ---
+  REF: I'll show you.
+  PRD: I'm going to show you how to do that.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: I'm going to show you how to do this.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You're going to want to make sure that you don't have a lot of water in your tank.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: I'm going to show you how to do this.
+
+[train] ep19 stage=joint loss=4.4274 bleu=2.2604860407056373 rouge_l=14.435977858557447 time=929.3s
+[train] saved new best (bleu=2.260)[[train] ep20 stage=joint loss=4.4257 bleu=N/A rouge_l=N/A time=932.0s[[train] ep21 stage=joint loss=4.4229 bleu=N/A rouge_l=N/A time=932.4s[[train] ep22 stage=joint loss=4.4186 bleu=N/A rouge_l=N/A time=920.6s[[train] ep23 stage=joint loss=4.4180 bleu=N/A rouge_l=N/A time=928.2s
+
+  --- Sample predictions (epoch 24) ---
+  REF: I'll show you.
+  PRD: I'm going to show you how to do that.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: I'm going to show you how to do that.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You want to make sure that you're going to be able to use the right tools for your job.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: I'm going to show you a little bit more about how to do this.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: I'm going to show you how to do that.
+
+[train] ep24 stage=joint loss=4.4158 bleu=2.396554523723921 rouge_l=14.297931034258493 time=955.9s
+[train] saved new best (bleu=2.397)
+[train] ep25 stage=joint loss=4.4144 bleu=N/A rouge_l=N/A time=928.2s
+[train] ep26 stage=joint loss=4.4117 bleu=N/A rouge_l=N/A time=930.0s
+[train] ep27 stage=joint loss=4.4069 bleu=N/A rouge_l=N/A time=927.2s
+[train] ep28 stage=joint loss=4.4077 bleu=N/A rouge_l=N/A time=943.3s
+
+  --- Sample predictions (epoch 29) ---
+  REF: I'll show you.
+  PRD: I'm going to show you how to do that.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: I'm going to show you how to do that.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You're going to want to make sure that you don't have a lot of money in your bank account.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: I'm going to show you a little bit more about how to do this, and it's very important that you don't go too far in the direction of what you want to do.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: I'm going to show you how to do this.
+
+[train] ep29 stage=joint loss=4.4057 bleu=1.9195739736446877 rouge_l=14.102910882028432 time=953.6s
+[train] ep30 stage=refine loss=4.4010 bleu=N/A rouge_l=N/A time=936.8s
+[train] ep31 stage=refine loss=4.3979 bleu=N/A rouge_l=N/A time=921.6s
+[train] ep32 stage=refine loss=4.3992 bleu=N/A rouge_l=N/A time=976.0s
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be conWARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING:WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be continuous
+WARNING: Logs may not be conWARNING:WARNING: Logs may not be con[modal-c[modal-client] 2026-05-05T17:19:07-0700 Loop attempt for _run_app.<locals>.heartbeat failed
+Traceback (most recent call last):
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/modal/_grpc_client.py", line 158, in direct
+    return await self.client._call_unary(self.wrapped_method, req, timeout=timeout, metadata=metadata)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/modal/client.py", line 340, in _call_unary
+    return await self._call_safely(coro, grpclib_method.name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/modal/client.py", line 300, in _call_safely
+    return await request_task
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/grpclib/client.py", line 912, in __call__
+    await stream.send_message(message, end=True)
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/grpclib/client.py", line 242, in send_message
+    await self.send_request()
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/grpclib/client.py", line 174, in send_request
+    protocol = await self._channel.__connect__()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/grpclib/client.py", line 748, in __connect__
+    self._protocol = await self._create_connection()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/grpclib/client.py", line 725, in _create_connection
+    _, protocol = await self._loop.create_connection(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 1112, in create_connection
+    infos = await self._ensure_resolved(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (host, port), family=family,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        type=socket.SOCK_STREAM, proto=proto, flags=flags, loop=self)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 1495, in _ensure_resolved
+    return await loop.getaddrinfo(host, port, family=family, type=type,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  proto=proto, flags=flags)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 934, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socket.py", line 975, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 8] nodename nor servname provided, or not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/modal/_utils/async_utils.py", line 574, in loop_coro
+    await asyncio.wait_for(async_f(), timeout=timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/mrcyrilgoud/Library/Python/3.13/lib/python/site-packages/modal/runner.py", line 66, in _heartbeat
+    await client.stub.AppHeartbeat(request, retry=Retry(attempt_timeout=HEARTBEAT_TIMEOUT))
+modal.exception.ConnectionError: [Errno 8] nodename nor servname provided, or no╭─ E╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ [Errno 8] nodename nor servname provided, or not known                       │
+╰──────────────────────────────────────────────────────────────────────────────╯

@@ -1,0 +1,48 @@
+{
+  "pretrain_checkpoint": {
+    "status": "PASS",
+    "size_mb": 12.640926,
+    "loss": 9.908719028680482e-05,
+    "epochs": 30,
+    "mae_state_keys": 434,
+    "encoder_state_keys": 417
+  },
+  "finetune_checkpoint": {
+    "status": "PASS",
+    "size_mb": 10.622598,
+    "top1_accuracy": 1.0,
+    "top5_accuracy": 1.0,
+    "epochs": 1,
+    "model_state_keys": 419
+  },
+  "pretrain_history": {
+    "status": "PASS",
+    "entries": 10,
+    "first_epoch": 20,
+    "last_epoch": 29,
+    "keys": [
+      "epoch",
+      "avg_mse",
+      "peak_vram_mb",
+      "time_sec",
+      "lr",
+      "n_clips",
+      "timestamp"
+    ]
+  },
+  "finetune_history": {
+    "status": "PASS",
+    "entries": 80,
+    "first_epoch": 0,
+    "last_epoch": 79,
+    "keys": [
+      "epoch",
+      "train_loss",
+      "val_top1",
+      "val_top5",
+      "peak_vram_mb",
+      "time_sec",
+      "timestamp"
+    ]
+  }
+}
