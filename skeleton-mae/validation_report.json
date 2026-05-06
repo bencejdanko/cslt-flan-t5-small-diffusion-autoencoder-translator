@@ -1,0 +1,67 @@
+{
+  "model_architecture": {
+    "status": "PASS",
+    "mae_params": 1017118,
+    "encoder_params": 852306,
+    "adjacency_shape": [
+      90,
+      90
+    ]
+  },
+  "forward_pass": {
+    "status": "PASS",
+    "input_shape": [
+      4,
+      6,
+      64,
+      90
+    ],
+    "encoder_output_shape": [
+      4,
+      256,
+      16,
+      90
+    ],
+    "reconstruction_loss": 1.0956311225891113
+  },
+  "checkpoint_restoration": {
+    "status": "FAIL",
+    "error": "[Errno 2] No such file or directory: '/ckpt/skeleton_mae/best.pt'"
+  },
+  "reconstruction_quality": {
+    "status": "PASS",
+    "mean_loss": 0.9985624313354492,
+    "std_loss": 0.010496776656609927,
+    "min_loss": 0.9714676141738892,
+    "max_loss": 1.012041687965393,
+    "num_samples": 10
+  },
+  "feature_extraction": {
+    "status": "PASS",
+    "shape": [
+      20,
+      256,
+      16,
+      90
+    ],
+    "mean": 0.050010137259960175,
+    "std": 0.032542821019887924,
+    "min": 0.0,
+    "max": 0.7585369348526001,
+    "has_nan": false,
+    "has_inf": false
+  },
+  "classifier_head": {
+    "status": "PASS",
+    "logits_shape": [
+      4,
+      10
+    ],
+    "num_classes": 10
+  },
+  "gradient_flow": {
+    "status": "PASS",
+    "mae_params_with_grads": 290,
+    "mean_grad_magnitude": 0.002694043217234639
+  }
+}

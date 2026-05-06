@@ -99,10 +99,16 @@ class FinetuneConfig:
     lr_head: float = 1e-3
     weight_decay: float = 1e-4
     label_smoothing: float = 0.1
+    grad_clip: float = 1.0
     encoder_channels: Tuple[int, ...] = (64, 128, 256)
     pretrained_ckpt: str = "/ckpt/skeleton_mae/best.pt"
     ckpt_dir: str = "/ckpt/wlasl100"
     seed: int = 15179996
+    max_samples: Optional[int] = None  # None = all; set to N for debugging
+    log_every: int = 50
+    augment: bool = False  # Data augmentation flag
+    augment_scale: float = 0.05  # ±5% magnitude scaling
+    augment_time_jitter: int = 2  # ±2 frames temporal jitter
 
 
 # ---------------------------------------------------------------------------
@@ -768,6 +774,154 @@ def _build_wlasl_loaders(cfg: FinetuneConfig):
     return train_loader, val_loader
 
 
+def _build_wlasl_hf_landmarks_loader(cfg: FinetuneConfig):
+    """Load WLASL landmarks from Kibalama/poseformer-sign-language HuggingFace dataset.
+
+    This dataset has pre-extracted MediaPipe landmarks (pose + face + hands) to avoid
+    video extraction complexity. Each sample has:
+      - landmarks: [T, J, 3] array (T frames, J joints, 3D coords)
+      - label: string (sign word)
+    """
+    from torch.utils.data import DataLoader, Dataset
+    from datasets import load_dataset
+    import numpy as np
+
+    class WLASLHFDataset(Dataset):
+        """Map-style dataset over HuggingFace Kibalama/poseformer-sign-language."""
+
+        def __init__(self, split, window_size, max_samples=None, subset_by_vocab_size=100, augment=False, augment_scale=0.05, augment_time_jitter=2):
+            self.hf_ds = load_dataset(
+                "Kibalama/poseformer-sign-language",
+                split="train",  # HF dataset has only "train" split
+                trust_remote_code=True,
+            )
+
+            # Collect unique labels and build label->id mapping
+            all_labels = sorted(set(sample["label"] for sample in self.hf_ds if sample["label"]))
+            print(f"[data] Found {len(all_labels)} unique WLASL signs in dataset")
+
+            # Limit to top vocab_size classes by frequency
+            if len(all_labels) > subset_by_vocab_size:
+                print(f"[data] Limiting to top {subset_by_vocab_size} classes by frequency")
+                label_counts = {}
+                for sample in self.hf_ds:
+                    label = sample["label"]
+                    label_counts[label] = label_counts.get(label, 0) + 1
+                top_labels = sorted(label_counts.keys(), key=lambda x: label_counts[x], reverse=True)[:subset_by_vocab_size]
+                self.label2id = {l: i for i, l in enumerate(sorted(top_labels))}
+            else:
+                self.label2id = {l: i for i, l in enumerate(all_labels)}
+
+            self.window_size = window_size
+            self.max_samples = max_samples
+            self.augment = augment
+            self.augment_scale = augment_scale
+            self.augment_time_jitter = augment_time_jitter
+
+            # Filter: keep only samples with labels in our vocab
+            self.samples = []
+            for sample in self.hf_ds:
+                if self.max_samples and len(self.samples) >= self.max_samples:
+                    break
+                if sample["label"] in self.label2id:
+                    self.samples.append(sample)
+
+            print(f"[data] Loaded {len(self.samples)} WLASL samples with {len(self.label2id)} classes")
+
+        def __len__(self):
+            return len(self.samples)
+
+        def __getitem__(self, idx):
+            sample = self.samples[idx]
+
+            # landmarks is already [T, J, 3] from HF dataset
+            landmarks = np.array(sample["landmarks"], dtype=np.float32)
+
+            if landmarks.shape[0] < 2:
+                # Too short; return zeros
+                return torch.zeros(IN_CHANNELS, self.window_size, N_JOINTS), self.label2id[sample["label"]]
+
+            # Engineer features: [T, 543, 3] → feature dict
+            # Note: HF landmarks may have different J (not necessarily 543)
+            # If J != 543, we need to handle it
+            if landmarks.shape[1] != 543:
+                # Pad or use as-is if it's the full 543
+                # For poseformer: face + pose + hands should be ~500 landmarks
+                # Pad to 543 if shorter
+                if landmarks.shape[1] < 543:
+                    pad_amount = 543 - landmarks.shape[1]
+                    landmarks = np.pad(landmarks, ((0, 0), (0, pad_amount), (0, 0)), mode='constant')
+
+            feat = engineer_features_multistream(landmarks)
+            if feat is None:
+                return torch.zeros(IN_CHANNELS, self.window_size, N_JOINTS), self.label2id[sample["label"]]
+
+            x = features_to_graph(feat, self.window_size)
+
+            # Apply data augmentation
+            if self.augment:
+                x = self._augment(x)
+
+            label_id = self.label2id[sample["label"]]
+
+            return x, label_id
+
+        def _augment(self, x):
+            """Apply skeleton augmentation: magnitude scaling + temporal jitter."""
+            import random
+
+            # Magnitude scaling: ±augment_scale on all coordinates
+            scale = 1.0 + random.uniform(-self.augment_scale, self.augment_scale)
+            x = x * scale
+
+            # Temporal jitter: randomly shift frames by ±augment_time_jitter
+            if self.augment_time_jitter > 0:
+                shift = random.randint(-self.augment_time_jitter, self.augment_time_jitter)
+                if shift > 0:
+                    x = torch.cat([torch.zeros_like(x[:, :shift, :]), x[:, :-shift, :]], dim=1)
+                elif shift < 0:
+                    x = torch.cat([x[:, -shift:, :], torch.zeros_like(x[:, :(-shift), :])], dim=1)
+
+            return x
+
+    # For now, don't split into train/val within HF dataset; just use top 80% for train
+    # (HF dataset doesn't have split metadata like our extracted parquet)
+    ds = WLASLHFDataset(
+        split="train",
+        window_size=cfg.window_size,
+        max_samples=cfg.max_samples,  # None = all, or specify a number
+        subset_by_vocab_size=cfg.num_classes,
+        augment=cfg.augment,
+        augment_scale=cfg.augment_scale,
+        augment_time_jitter=cfg.augment_time_jitter,
+    )
+
+    # Simple split: 80% train, 20% val
+    train_size = int(0.8 * len(ds))
+    val_size = len(ds) - train_size
+    train_ds, val_ds = torch.utils.data.random_split(ds, [train_size, val_size])
+
+    train_loader = DataLoader(
+        train_ds,
+        batch_size=cfg.batch_size,
+        shuffle=True,
+        num_workers=0,  # HF streaming can be finicky with workers
+        collate_fn=_collate,
+        pin_memory=True,
+        drop_last=True,
+    )
+    val_loader = DataLoader(
+        val_ds,
+        batch_size=cfg.batch_size,
+        shuffle=False,
+        num_workers=0,
+        collate_fn=_collate,
+        pin_memory=True,
+    )
+
+    return train_loader, val_loader
+
+
 # ---------------------------------------------------------------------------
 # Pretrain entrypoint
 # ---------------------------------------------------------------------------
@@ -945,12 +1099,17 @@ def finetune(cfg_json: Optional[str] = None):
     loss_fn = nn.CrossEntropyLoss(label_smoothing=cfg.label_smoothing)
 
     # Decide dataset based on config
+    use_wlasl_hf = "kibalama" in cfg.wlasl_parquet.lower() or "wlasl_hf" in cfg.wlasl_parquet.lower()
     use_how2sign = "how2sign" in cfg.wlasl_parquet.lower() or not os.path.exists(cfg.wlasl_parquet)
 
-    if use_how2sign:
+    if use_wlasl_hf:
+        print(f"[finetune] using HuggingFace WLASL landmarks (Kibalama/poseformer-sign-language)")
+        train_loader, val_loader = _build_wlasl_hf_landmarks_loader(cfg)
+    elif use_how2sign:
         print(f"[finetune] using How2Sign streaming data for fine-tuning")
         train_loader, val_loader = _build_how2sign_loaders(cfg)
     else:
+        print(f"[finetune] using local WLASL parquet from {cfg.wlasl_parquet}")
         train_loader, val_loader = _build_wlasl_loaders(cfg)
 
     os.makedirs(cfg.ckpt_dir, exist_ok=True)
@@ -1060,11 +1219,17 @@ def main(stage: str = "pretrain", subset: int = 100):
         result = pretrain.remote(json.dumps(kw_clean))
         print(json.dumps(result, indent=2))
     elif stage == "finetune":
-        # Default to How2Sign fine-tuning (since WLASL extraction failed)
+        # Aggressive optimization: all 2000 WLASL signs + tuned hyperparameters
         kw = {
-            "wlasl_parquet": "how2sign",  # Signal to use How2Sign dataset
-            "num_classes": 10,  # Dummy classes for How2Sign
-            "ckpt_dir": "/ckpt/how2sign_finetune",
+            "wlasl_parquet": "kibalama",  # Signal to use HF Kibalama dataset
+            "num_classes": 2000,  # ALL WLASL signs for maximum diversity
+            "ckpt_dir": "/ckpt/wlasl2000_optimized",
+            "lr_encoder": 5e-4,  # 5× higher - allow encoder adaptation
+            "lr_head": 5e-4,  # Match encoder LR for co-training
+            "epochs": 100,  # 25% more training
+            "augment": True,  # Enable data augmentation
+            "augment_scale": 0.05,  # ±5% magnitude scaling
+            "augment_time_jitter": 2,  # ±2 frames temporal jitter
         }
         result = finetune.remote(json.dumps(kw))
         print(json.dumps(result, indent=2))

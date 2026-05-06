@@ -1,0 +1,288 @@
+✓ Initialized. View run at 
+https://modal.com/apps/mrcyrilgoud/main/ap-B90Qc1jmdW2ehdrsX6kpGf
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/mrcyrilgoud/Desktop/repos/cslt-flan-t5-small-diffusion-autoencoder/mo
+│   dal_skeleton_mae_app.py
+├── 🔨 Created function finetune.
+├── 🔨 Created function pretrain.
+└── 🔨 Created function extract_wlasl.
+[load_pretrained] missing=0 unexpected=0
+[finetune] loaded pretrained encoder from /ckpt/skeleton_mae/best.pt
+[finetune] using HuggingFace WLASL landmarks (Kibalama/poseformer-sign-language)
+
+[1ADownloading readme: 0.00B [00:00, ?B/s]Downloading readme: 1.95kB [00:00, 8.18MB/s]
+
+[1ADownloading data:   0%|          | 0.00/214M [00:00<?, ?B/s]
+[1ADownloading data:   2%|▏         | 4.19M/214M [00:00<00:45, 4.58MB/s]
+[1ADownloading data:   6%|▌         | 12.6M/214M [00:01<00:20, 9.81MB/s]
+[1ADownloading data:  10%|▉         | 21.0M/214M [00:02<00:16, 11.5MB/s]
+[1ADownloading data:  14%|█▎        | 29.4M/214M [00:02<00:14, 12.7MB/s]
+[1ADownloading data:  18%|█▊        | 37.7M/214M [00:03<00:12, 14.5MB/s]
+[1ADownloading data:  22%|██▏       | 46.1M/214M [00:03<00:10, 15.3MB/s]
+[1ADownloading data:  25%|██▌       | 54.5M/214M [00:03<00:09, 16.9MB/s]
+[1ADownloading data:  29%|██▉       | 62.9M/214M [00:04<00:11, 13.7MB/s]
+[1ADownloading data:  33%|███▎      | 71.3M/214M [00:05<00:09, 15.2MB/s]
+[1ADownloading data:  37%|███▋      | 79.7M/214M [00:05<00:09, 14.7MB/s]
+[1ADownloading data:  41%|████      | 88.1M/214M [00:06<00:08, 15.4MB/s]
+[1ADownloading data:  45%|████▍     | 96.5M/214M [00:06<00:06, 17.4MB/s]
+[1ADownloading data:  49%|████▉     | 105M/214M [00:07<00:06, 18.0MB/s] 
+[1ADownloading data:  53%|█████▎    | 113M/214M [00:07<00:05, 19.0MB/s]
+[1ADownloading data:  57%|█████▋    | 122M/214M [00:07<00:04, 19.7MB/s]
+[1ADownloading data:  61%|██████    | 130M/214M [00:08<00:04, 21.0MB/s]
+[1ADownloading data:  65%|██████▍   | 138M/214M [00:08<00:03, 22.0MB/s]
+[1ADownloading data:  68%|██████▊   | 147M/214M [00:08<00:03, 22.0MB/s]
+[1ADownloading data:  72%|███████▏  | 155M/214M [00:09<00:03, 19.6MB/s]
+[1ADownloading data:  76%|███████▋  | 164M/214M [00:09<00:02, 20.0MB/s]
+[1ADownloading data:  80%|████████  | 172M/214M [00:10<00:02, 20.2MB/s]
+[1ADownloading data:  84%|████████▍ | 180M/214M [00:10<00:01, 21.3MB/s]
+[1ADownloading data:  88%|████████▊ | 189M/214M [00:11<00:01, 19.3MB/s]
+[1ADownloading data:  92%|█████████▏| 197M/214M [00:11<00:00, 19.3MB/s]
+[1ADownloading data:  96%|█████████▌| 206M/214M [00:11<00:00, 20.5MB/s]
+[1ADownloading data: 100%|█████████▉| 214M/214M [00:12<00:00, 22.1MB/s]Downloading data: 100%|██████████| 214M/214M [00:12<00:00, 17.5MB/s]
+
+[1ADownloading data:   0%|          | 0.00/207M [00:00<?, ?B/s]
+[1ADownloading data:   2%|▏         | 4.19M/207M [00:00<00:20, 10.1MB/s]
+[1ADownloading data:   6%|▌         | 12.6M/207M [00:00<00:13, 14.4MB/s]
+[1ADownloading data:  10%|█         | 21.0M/207M [00:01<00:10, 17.0MB/s]
+[1ADownloading data:  14%|█▍        | 29.4M/207M [00:01<00:09, 18.1MB/s]
+[1ADownloading data:  18%|█▊        | 37.7M/207M [00:02<00:12, 13.6MB/s]
+[1ADownloading data:  22%|██▏       | 46.1M/207M [00:03<00:10, 15.4MB/s]
+[1ADownloading data:  26%|██▋       | 54.5M/207M [00:03<00:09, 15.8MB/s]
+[1ADownloading data:  30%|███       | 62.9M/207M [00:03<00:08, 17.0MB/s]
+[1ADownloading data:  34%|███▍      | 71.3M/207M [00:04<00:08, 16.9MB/s]
+[1ADownloading data:  38%|███▊      | 79.7M/207M [00:04<00:07, 16.8MB/s]
+[1ADownloading data:  42%|████▏     | 88.1M/207M [00:05<00:08, 13.7MB/s]
+[1ADownloading data:  47%|████▋     | 96.5M/207M [00:06<00:07, 15.5MB/s]
+[1ADownloading data:  51%|█████     | 105M/207M [00:06<00:06, 16.0MB/s] 
+[1ADownloading data:  55%|█████▍    | 113M/207M [00:07<00:06, 14.2MB/s]
+[1ADownloading data:  59%|█████▊    | 122M/207M [00:07<00:05, 16.1MB/s]
+[1ADownloading data:  63%|██████▎   | 130M/207M [00:08<00:04, 17.3MB/s]
+[1ADownloading data:  67%|██████▋   | 138M/207M [00:08<00:04, 15.0MB/s]
+[1ADownloading data:  71%|███████   | 147M/207M [00:09<00:03, 16.9MB/s]
+[1ADownloading data:  75%|███████▍  | 155M/207M [00:10<00:03, 14.2MB/s]
+[1ADownloading data:  79%|███████▉  | 164M/207M [00:10<00:02, 16.2MB/s]
+[1ADownloading data:  83%|████████▎ | 172M/207M [00:10<00:02, 17.4MB/s]
+[1ADownloading data:  87%|████████▋ | 180M/207M [00:11<00:01, 17.8MB/s]
+[1ADownloading data:  91%|█████████ | 189M/207M [00:11<00:01, 17.3MB/s]
+[1ADownloading data:  95%|█████████▌| 197M/207M [00:12<00:00, 18.8MB/s]
+[1ADownloading data:  99%|█████████▉| 206M/207M [00:12<00:00, 20.9MB/s]Downloading data: 100%|██████████| 207M/207M [00:12<00:00, 16.7MB/s]
+
+[1ADownloading data:   0%|          | 0.00/212M [00:00<?, ?B/s]
+[1ADownloading data:   2%|▏         | 4.19M/212M [00:00<00:18, 11.4MB/s]
+[1ADownloading data:   6%|▌         | 12.6M/212M [00:00<00:11, 18.0MB/s]
+[1ADownloading data:  10%|▉         | 21.0M/212M [00:01<00:09, 20.5MB/s]
+[1ADownloading data:  14%|█▍        | 29.4M/212M [00:01<00:09, 19.0MB/s]
+[1ADownloading data:  18%|█▊        | 37.7M/212M [00:01<00:08, 19.4MB/s]
+[1ADownloading data:  22%|██▏       | 46.1M/212M [00:02<00:09, 18.2MB/s]
+[1ADownloading data:  26%|██▌       | 54.5M/212M [00:03<00:09, 16.1MB/s]
+[1ADownloading data:  30%|██▉       | 62.9M/212M [00:04<00:11, 12.6MB/s]
+[1ADownloading data:  34%|███▎      | 71.3M/212M [00:04<00:09, 14.9MB/s]
+[1ADownloading data:  38%|███▊      | 79.7M/212M [00:04<00:07, 16.6MB/s]
+[1ADownloading data:  42%|████▏     | 88.1M/212M [00:05<00:07, 17.5MB/s]
+[1ADownloading data:  46%|████▌     | 96.5M/212M [00:05<00:06, 18.8MB/s]
+[1ADownloading data:  49%|████▉     | 105M/212M [00:05<00:05, 20.3MB/s] 
+[1ADownloading data:  53%|█████▎    | 113M/212M [00:06<00:04, 20.4MB/s]
+[1ADownloading data:  57%|█████▋    | 122M/212M [00:06<00:04, 21.2MB/s]
+[1ADownloading data:  61%|██████▏   | 130M/212M [00:07<00:03, 21.0MB/s]
+[1ADownloading data:  65%|██████▌   | 138M/212M [00:07<00:03, 19.5MB/s]
+[1ADownloading data:  69%|██████▉   | 147M/212M [00:08<00:03, 17.0MB/s]
+[1ADownloading data:  73%|███████▎  | 155M/212M [00:08<00:03, 18.4MB/s]
+[1ADownloading data:  77%|███████▋  | 164M/212M [00:09<00:02, 16.4MB/s]
+[1ADownloading data:  81%|████████  | 172M/212M [00:09<00:02, 17.5MB/s]
+[1ADownloading data:  85%|████████▌ | 180M/212M [00:10<00:01, 17.4MB/s]
+[1ADownloading data:  89%|████████▉ | 189M/212M [00:11<00:01, 13.9MB/s]
+[1ADownloading data:  93%|█████████▎| 197M/212M [00:11<00:00, 16.0MB/s]
+[1ADownloading data:  97%|█████████▋| 206M/212M [00:11<00:00, 16.4MB/s]
+[1ADownloading data: 100%|██████████| 212M/212M [00:12<00:00, 18.0MB/s]
+[1ADownloading data: 100%|██████████| 212M/212M [00:12<00:00, 17.5MB/s]
+
+[1ADownloading data:   0%|          | 0.00/198M [00:00<?, ?B/s]
+[1ADownloading data:   2%|▏         | 4.19M/198M [00:00<00:20, 9.32MB/s]
+[1ADownloading data:   6%|▋         | 12.6M/198M [00:01<00:15, 12.1MB/s]
+[1ADownloading data:  11%|█         | 21.0M/198M [00:01<00:12, 14.3MB/s]
+[1ADownloading data:  15%|█▍        | 29.4M/198M [00:01<00:10, 16.5MB/s]
+[1ADownloading data:  19%|█▉        | 37.7M/198M [00:02<00:12, 13.0MB/s]
+[1ADownloading data:  23%|██▎       | 46.1M/198M [00:03<00:11, 13.6MB/s]
+[1ADownloading data:  27%|██▋       | 54.5M/198M [00:03<00:09, 15.4MB/s]
+[1ADownloading data:  32%|███▏      | 62.9M/198M [00:04<00:08, 16.4MB/s]
+[1ADownloading data:  36%|███▌      | 71.3M/198M [00:04<00:07, 17.4MB/s]
+[1ADownloading data:  40%|████      | 79.7M/198M [00:05<00:08, 14.0MB/s]
+[1ADownloading data:  44%|████▍     | 88.1M/198M [00:06<00:08, 12.6MB/s]
+[1ADownloading data:  49%|████▊     | 96.5M/198M [00:06<00:07, 13.0MB/s]
+[1ADownloading data:  53%|█████▎    | 105M/198M [00:07<00:06, 14.9MB/s] 
+[1ADownloading data:  57%|█████▋    | 113M/198M [00:07<00:05, 16.3MB/s]
+[1ADownloading data:  61%|██████▏   | 122M/198M [00:08<00:04, 17.9MB/s]
+[1ADownloading data:  66%|██████▌   | 130M/198M [00:08<00:03, 19.4MB/s]
+[1ADownloading data:  70%|██████▉   | 138M/198M [00:08<00:03, 19.2MB/s]
+[1ADownloading data:  74%|███████▍  | 147M/198M [00:09<00:02, 18.6MB/s]
+[1ADownloading data:  78%|███████▊  | 155M/198M [00:10<00:02, 16.4MB/s]
+[1ADownloading data:  82%|████████▏ | 164M/198M [00:10<00:01, 17.5MB/s]
+[1ADownloading data:  87%|████████▋ | 172M/198M [00:10<00:01, 17.7MB/s]
+[1ADownloading data:  91%|█████████ | 180M/198M [00:11<00:01, 15.5MB/s]
+[1ADownloading data:  95%|█████████▌| 189M/198M [00:12<00:00, 16.4MB/s]
+[1ADownloading data:  99%|█████████▉| 197M/198M [00:12<00:00, 17.6MB/s]Downloading data: 100%|██████████| 198M/198M [00:12<00:00, 16.0MB/s]
+
+[1AGenerating train split:   0%|          | 0/11980 [00:00<?, ? examples/s]
+[1AGenerating train split:   8%|▊         | 1000/11980 [00:01<00:12, 859.19 examples/s]
+[1AGenerating train split:  17%|█▋        | 2000/11980 [00:01<00:08, 1143.94 examples/s]
+[1AGenerating train split:  25%|██▌       | 2995/11980 [00:02<00:07, 1234.53 examples/s]
+[1AGenerating train split:  33%|███▎      | 3995/11980 [00:03<00:06, 1196.22 examples/s]
+[1AGenerating train split:  42%|████▏     | 4995/11980 [00:04<00:05, 1301.34 examples/s]
+[1AGenerating train split:  50%|█████     | 5990/11980 [00:04<00:04, 1277.77 examples/s]
+[1AGenerating train split:  58%|█████▊    | 6990/11980 [00:05<00:04, 1211.69 examples/s]
+[1AGenerating train split:  67%|██████▋   | 7990/11980 [00:06<00:03, 1290.97 examples/s]
+[1AGenerating train split:  75%|███████▌  | 8985/11980 [00:07<00:02, 1285.61 examples/s]
+[1AGenerating train split:  83%|████████▎ | 9985/11980 [00:08<00:01, 1244.86 examples/s]
+[1AGenerating train split:  92%|█████████▏| 10985/11980 [00:08<00:00, 1324.73 examples/s]
+[1AGenerating train split: 100%|██████████| 11980/11980 [00:09<00:00, 1342.93 examples/s]
+[1AGenerating train split: 100%|██████████| 11980/11980 [00:09<00:00, 1260.24 examples/s]
+[data] Found 2000 unique WLASL signs in dataset
+[data] Loaded 11980 WLASL samples with 2000 classes
+[finetune] ep0 train_loss=7.6367 val_top1=0.000 val_top5=0.003 peak_vram_MB=5558 time=92.7s
+[finetune] ep1 train_loss=7.5667 val_top1=0.000 val_top5=0.002 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.000)
+[finetune] ep2 train_loss=7.3655 val_top1=0.001 val_top5=0.007 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.001)
+[finetune] ep3 train_loss=7.1846 val_top1=0.001 val_top5=0.009 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.001)
+[finetune] ep4 train_loss=7.0480 val_top1=0.003 val_top5=0.011 peak_vram_MB=5558 time=88.0s
+[finetune] saved new best (top1=0.003)
+[finetune] ep5 train_loss=6.9471 val_top1=0.003 val_top5=0.012 peak_vram_MB=5558 time=88.1s
+[finetune] ep6 train_loss=6.8394 val_top1=0.005 val_top5=0.016 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.005)
+[finetune] ep7 train_loss=6.7247 val_top1=0.004 val_top5=0.017 peak_vram_MB=5558 time=88.1s
+[finetune] ep8 train_loss=6.5872 val_top1=0.005 val_top5=0.028 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.005)
+[finetune] ep9 train_loss=6.4319 val_top1=0.008 val_top5=0.034 peak_vram_MB=5558 time=88.0s
+[finetune] saved new best (top1=0.008)
+[finetune] ep10 train_loss=6.2803 val_top1=0.006 val_top5=0.032 peak_vram_MB=5558 time=88.1s
+[finetune] ep11 train_loss=6.1186 val_top1=0.013 val_top5=0.050 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.013)
+[finetune] ep12 train_loss=5.9495 val_top1=0.012 val_top5=0.056 peak_vram_MB=5558 time=88.1s
+[finetune] ep13 train_loss=5.7808 val_top1=0.023 val_top5=0.079 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.023)
+[finetune] ep14 train_loss=5.6065 val_top1=0.024 val_top5=0.093 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.024)
+[finetune] ep15 train_loss=5.4648 val_top1=0.029 val_top5=0.100 peak_vram_MB=5558 time=88.3s
+[finetune] saved new best (top1=0.029)
+[finetune] ep16 train_loss=5.2947 val_top1=0.028 val_top5=0.104 peak_vram_MB=5558 time=88.1s
+[finetune] ep17 train_loss=5.1290 val_top1=0.037 val_top5=0.129 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.037)
+[finetune] ep18 train_loss=4.9978 val_top1=0.041 val_top5=0.135 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.041)
+[finetune] ep19 train_loss=4.8596 val_top1=0.044 val_top5=0.157 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.044)
+[finetune] ep20 train_loss=4.7271 val_top1=0.049 val_top5=0.164 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.049)
+[finetune] ep21 train_loss=4.6148 val_top1=0.054 val_top5=0.175 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.054)
+[finetune] ep22 train_loss=4.4996 val_top1=0.054 val_top5=0.182 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.054)
+[finetune] ep23 train_loss=4.3839 val_top1=0.060 val_top5=0.192 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.060)
+[finetune] ep24 train_loss=4.2756 val_top1=0.061 val_top5=0.209 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.061)
+[finetune] ep25 train_loss=4.1684 val_top1=0.067 val_top5=0.210 peak_vram_MB=5558 time=88.0s
+[finetune] saved new best (top1=0.067)
+[finetune] ep26 train_loss=4.0600 val_top1=0.063 val_top5=0.212 peak_vram_MB=5558 time=88.0s
+[finetune] ep27 train_loss=3.9726 val_top1=0.068 val_top5=0.230 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.068)
+[finetune] ep28 train_loss=3.8812 val_top1=0.071 val_top5=0.243 peak_vram_MB=5558 time=88.0s
+[finetune] saved new best (top1=0.071)
+[finetune] ep29 train_loss=3.7725 val_top1=0.077 val_top5=0.238 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.077)
+[finetune] ep30 train_loss=3.6704 val_top1=0.076 val_top5=0.249 peak_vram_MB=5558 time=88.1s
+[finetune] ep31 train_loss=3.5864 val_top1=0.085 val_top5=0.258 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.085)
+[finetune] ep32 train_loss=3.5075 val_top1=0.081 val_top5=0.252 peak_vram_MB=5558 time=88.0s
+[finetune] ep33 train_loss=3.4441 val_top1=0.087 val_top5=0.261 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.087)
+[finetune] ep34 train_loss=3.3520 val_top1=0.078 val_top5=0.263 peak_vram_MB=5558 time=88.1s
+[finetune] ep35 train_loss=3.2865 val_top1=0.089 val_top5=0.281 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.089)
+[finetune] ep36 train_loss=3.2226 val_top1=0.091 val_top5=0.283 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.091)
+[finetune] ep37 train_loss=3.1210 val_top1=0.088 val_top5=0.281 peak_vram_MB=5558 time=88.0s
+[finetune] ep38 train_loss=3.0592 val_top1=0.095 val_top5=0.290 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.095)
+[finetune] ep39 train_loss=3.0038 val_top1=0.094 val_top5=0.290 peak_vram_MB=5558 time=88.1s
+[finetune] ep40 train_loss=2.9544 val_top1=0.091 val_top5=0.287 peak_vram_MB=5558 time=88.0s
+[finetune] ep41 train_loss=2.8870 val_top1=0.096 val_top5=0.297 peak_vram_MB=5558 time=88.0s
+[finetune] saved new best (top1=0.096)
+[finetune] ep42 train_loss=2.8337 val_top1=0.096 val_top5=0.303 peak_vram_MB=5558 time=88.1s
+[finetune] ep43 train_loss=2.7791 val_top1=0.098 val_top5=0.303 peak_vram_MB=5558 time=88.0s
+[finetune] saved new best (top1=0.098)
+[finetune] ep44 train_loss=2.7286 val_top1=0.098 val_top5=0.313 peak_vram_MB=5558 time=88.0s
+[finetune] ep45 train_loss=2.6695 val_top1=0.101 val_top5=0.319 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.101)
+[finetune] ep46 train_loss=2.6296 val_top1=0.101 val_top5=0.315 peak_vram_MB=5558 time=88.1s
+[finetune] ep47 train_loss=2.6014 val_top1=0.098 val_top5=0.322 peak_vram_MB=5558 time=88.0s
+[finetune] ep48 train_loss=2.5442 val_top1=0.100 val_top5=0.319 peak_vram_MB=5558 time=88.1s
+[finetune] ep49 train_loss=2.5079 val_top1=0.099 val_top5=0.315 peak_vram_MB=5558 time=88.1s
+[finetune] ep50 train_loss=2.4546 val_top1=0.099 val_top5=0.325 peak_vram_MB=5558 time=88.1s
+[finetune] ep51 train_loss=2.4404 val_top1=0.103 val_top5=0.322 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.103)
+[finetune] ep52 train_loss=2.4074 val_top1=0.102 val_top5=0.319 peak_vram_MB=5558 time=88.1s
+[finetune] ep53 train_loss=2.3657 val_top1=0.105 val_top5=0.324 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.105)
+[finetune] ep54 train_loss=2.3394 val_top1=0.105 val_top5=0.323 peak_vram_MB=5558 time=88.0s
+[finetune] ep55 train_loss=2.3030 val_top1=0.111 val_top5=0.330 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.111)
+[finetune] ep56 train_loss=2.2941 val_top1=0.111 val_top5=0.325 peak_vram_MB=5558 time=88.1s
+[finetune] ep57 train_loss=2.2619 val_top1=0.107 val_top5=0.332 peak_vram_MB=5558 time=88.1s
+[finetune] ep58 train_loss=2.2281 val_top1=0.108 val_top5=0.328 peak_vram_MB=5558 time=88.1s
+[finetune] ep59 train_loss=2.2104 val_top1=0.105 val_top5=0.330 peak_vram_MB=5558 time=88.0s
+[finetune] ep60 train_loss=2.1809 val_top1=0.108 val_top5=0.336 peak_vram_MB=5558 time=88.1s
+[finetune] ep61 train_loss=2.1625 val_top1=0.111 val_top5=0.336 peak_vram_MB=5558 time=88.1s
+[finetune] ep62 train_loss=2.1410 val_top1=0.105 val_top5=0.334 peak_vram_MB=5558 time=88.0s
+[finetune] ep63 train_loss=2.1309 val_top1=0.108 val_top5=0.330 peak_vram_MB=5558 time=88.1s
+[finetune] ep64 train_loss=2.1179 val_top1=0.111 val_top5=0.341 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.111)
+[finetune] ep65 train_loss=2.0802 val_top1=0.109 val_top5=0.336 peak_vram_MB=5558 time=88.1s
+[finetune] ep66 train_loss=2.0768 val_top1=0.112 val_top5=0.341 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.112)
+[finetune] ep67 train_loss=2.0626 val_top1=0.115 val_top5=0.333 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.115)
+[finetune] ep68 train_loss=2.0542 val_top1=0.114 val_top5=0.333 peak_vram_MB=5558 time=88.1s
+[finetune] ep69 train_loss=2.0390 val_top1=0.110 val_top5=0.338 peak_vram_MB=5558 time=88.1s
+[finetune] ep70 train_loss=2.0220 val_top1=0.113 val_top5=0.338 peak_vram_MB=5558 time=88.1s
+[finetune] ep71 train_loss=2.0239 val_top1=0.109 val_top5=0.342 peak_vram_MB=5558 time=88.1s
+[finetune] ep72 train_loss=1.9918 val_top1=0.113 val_top5=0.338 peak_vram_MB=5558 time=88.1s
+[finetune] ep73 train_loss=1.9915 val_top1=0.110 val_top5=0.348 peak_vram_MB=5558 time=88.1s
+[finetune] ep74 train_loss=1.9745 val_top1=0.105 val_top5=0.334 peak_vram_MB=5558 time=88.1s
+[finetune] ep75 train_loss=1.9637 val_top1=0.111 val_top5=0.344 peak_vram_MB=5558 time=88.1s
+[finetune] ep76 train_loss=1.9566 val_top1=0.111 val_top5=0.340 peak_vram_MB=5558 time=88.1s
+[finetune] ep77 train_loss=1.9443 val_top1=0.112 val_top5=0.344 peak_vram_MB=5558 time=88.1s
+[finetune] ep78 train_loss=1.9402 val_top1=0.106 val_top5=0.338 peak_vram_MB=5558 time=88.1s
+[finetune] ep79 train_loss=1.9261 val_top1=0.107 val_top5=0.340 peak_vram_MB=5558 time=88.1s
+[finetune] ep80 train_loss=1.9223 val_top1=0.115 val_top5=0.337 peak_vram_MB=5558 time=88.1s
+[finetune] ep81 train_loss=1.9157 val_top1=0.108 val_top5=0.336 peak_vram_MB=5558 time=88.0s
+[finetune] ep82 train_loss=1.9080 val_top1=0.114 val_top5=0.341 peak_vram_MB=5558 time=88.1s
+[finetune] ep83 train_loss=1.9108 val_top1=0.111 val_top5=0.341 peak_vram_MB=5558 time=88.0s
+[finetune] ep84 train_loss=1.9135 val_top1=0.109 val_top5=0.344 peak_vram_MB=5558 time=88.0s
+[finetune] ep85 train_loss=1.8890 val_top1=0.109 val_top5=0.339 peak_vram_MB=5558 time=88.1s
+[finetune] ep86 train_loss=1.8922 val_top1=0.112 val_top5=0.348 peak_vram_MB=5558 time=88.1s
+[finetune] ep87 train_loss=1.8869 val_top1=0.108 val_top5=0.346 peak_vram_MB=5558 time=88.1s
+[finetune] ep88 train_loss=1.8869 val_top1=0.112 val_top5=0.350 peak_vram_MB=5558 time=88.0s
+[finetune] ep89 train_loss=1.8805 val_top1=0.105 val_top5=0.346 peak_vram_MB=5558 time=88.0s
+[finetune] ep90 train_loss=1.8735 val_top1=0.108 val_top5=0.348 peak_vram_MB=5558 time=88.0s
+[finetune] ep91 train_loss=1.8852 val_top1=0.109 val_top5=0.342 peak_vram_MB=5558 time=88.0s
+[finetune] ep92 train_loss=1.8764 val_top1=0.109 val_top5=0.343 peak_vram_MB=5558 time=88.1s
+[finetune] ep93 train_loss=1.8740 val_top1=0.109 val_top5=0.345 peak_vram_MB=5558 time=88.0s
+[finetune] ep94 train_loss=1.8709 val_top1=0.110 val_top5=0.345 peak_vram_MB=5558 time=88.0s
+[finetune] ep95 train_loss=1.8692 val_top1=0.110 val_top5=0.348 peak_vram_MB=5558 time=88.1s
+[finetune] ep96 train_loss=1.8718 val_top1=0.112 val_top5=0.348 peak_vram_MB=5558 time=88.0s
+[finetune] ep97 train_loss=1.8660 val_top1=0.107 val_top5=0.350 peak_vram_MB=5558 time=88.1s
+[finetune] ep98 train_loss=1.8672 val_top1=0.109 val_top5=0.342 peak_vram_MB=5558 time=88.1s
+[finetune] ep99 train_loss=1.8694 val_top1=0.116 val_top5=0.345 peak_vram_MB=5558 time=88.1s
+[finetune] saved new best (top1=0.116)
+[finetune] training complete. best_top1=0.116
+{
+  "best_top1": 0.11560934891485809,
+  "final_epoch": 99,
+  "history_entries": 100
+}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/mrcyrilgoud/main/ap-B90Qc1jmdW2ehdrsX6kpGf

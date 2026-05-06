@@ -1,0 +1,72 @@
+✓ Initialized. View run at 
+https://modal.com/apps/mrcyrilgoud/main/ap-DwfROz2aFuCsMz3U543cXT
+✓ Created objects.
+├── 🔨 Created mount 
+│   /Users/mrcyrilgoud/Desktop/repos/cslt-flan-t5-small-diffusion-autoencoder/mo
+│   dal_translation_app.py
+└── 🔨 Created function train.
+
+[main] launching translation training (mode=train)...
+[train] mode=train
+[train] loading data...
+
+[1ADownloading readme: 0.00B [00:00, ?B/s]
+[1ADownloading readme: 3.09kB [00:00, 8.43MB/s]
+Repo card metadata block was not found. Setting CardData to empty.
+Repo card metadata block was not found. Setting CardData to empty.
+[train] train=31046 val=500 samples
+[train] total_params=260,247,681 trainable=12,669,825
+trainable params: 1,769,472 || all params: 249,347,328 || trainable%: 0.7096414524241463
+[train] resumed from epoch 34, best_bleu=2.454
+/usr/local/lib/python3.11/site-packages/torch/nn/modules/transformer.py:408: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. (Triggered internally at ../aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(output, src_key_padding_mask.logical_not(), mask_check=False)
+
+  --- Sample predictions (epoch 34) ---
+  REF: I'll show you.
+  PRD: I'm going to show you how to do that.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: I'm going to show you how to do that.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You want to make sure that you're not going to get a lot of damage in the process.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: So I'm going to go ahead and do a little bit of research on what you can do with your hair, how to get rid of it.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: I'm going to show you how to do this.
+
+[train] ep34 stage=refine loss=4.3965 bleu=1.7077858851742396 rouge_l=13.998763156120539 time=897.3s
+[train] ep35 stage=refine loss=4.3964 bleu=N/A rouge_l=N/A time=887.2s
+[train] ep36 stage=refine loss=4.3947 bleu=N/A rouge_l=N/A time=896.3s
+[train] ep37 stage=refine loss=4.3962 bleu=N/A rouge_l=N/A time=902.5s
+[train] ep38 stage=refine loss=4.3938 bleu=N/A rouge_l=N/A time=909.9s
+
+  --- Sample predictions (epoch 39) ---
+  REF: I'll show you.
+  PRD: I'm going to show you how to do that.
+
+  REF: So that is one way, you can just let them go right by.
+  PRD: Now, I'm going to show you how to do that.
+
+  REF: If you need to deal with the situation a little bit more it might look something like this.
+  PRD: You're going to want to make sure that you don't have a lot of money in your bank account.
+
+  REF: This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.
+  PRD: I'm going to show you a little bit more about how to do this, and it's very important that you know what you're doing.
+
+  REF: I will definitely recommend getting this kind of yogurt so so good.
+  PRD: I'm going to show you how to do that.
+
+[train] ep39 stage=refine loss=4.3947 bleu=1.9243378621176452 rouge_l=14.208983544033089 time=901.0s
+
+[train] complete. best_bleu=2.454
+
+[main] result: {
+  "best_bleu": 2.454052437285701,
+  "final_epoch": 39
+}
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/mrcyrilgoud/main/ap-DwfROz2aFuCsMz3U543cXT
