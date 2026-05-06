@@ -1,0 +1,26 @@
+{
+  "device": "cuda",
+  "split": "validation",
+  "checkpoint": "/checkpoints/motion_conformer_t5_full/motion_conformer_t5_smoke.pt",
+  "windows": 7088,
+  "steps": 1772,
+  "validation_loss": 3.7762172906985403,
+  "bleu": 0.007387763828023424,
+  "chrf": 0.17312468600138753,
+  "rouge_l": 0.0,
+  "exact_match": 0.0,
+  "config": {
+    "landmarks_repo": "bdanko/how2sign-landmarks-front-raw-parquet",
+    "split": "validation",
+    "max_samples": null,
+    "batch_size": 4,
+    "window_size": 60,
+    "stride": 30,
+    "t5_model": "google/flan-t5-small",
+    "checkpoint_path": "/checkpoints/motion_conformer_t5_full/motion_conformer_t5_smoke.pt",
+    "output_dir": "/checkpoints/motion_conformer_t5_full/eval_validation",
+    "num_beams": 4,
+    "max_new_tokens": 64,
+    "seed": 15179996
+  }
+}
