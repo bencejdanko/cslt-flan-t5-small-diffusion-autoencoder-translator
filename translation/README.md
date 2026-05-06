@@ -32,8 +32,10 @@ How2Sign landmarks [T, 543, 3]
 | File | Description |
 |------|-------------|
 | `modal_translation_app.py` | Self-contained Modal app (model, data, training, evaluation) |
+| `llm_judge.py` | Local Ollama LLM-as-judge scorer for `eval_results.json` translation outputs |
 | `EVALUATION.md` | Full evaluation report with metrics, analysis, recommendations |
-| `translation_train.log` | Training log (40 epochs, first run) |
+| `training_history.jsonl` | Authoritative per-epoch training metrics copied from the Modal checkpoint volume |
+| `translation_train.log` | Raw training log for epochs 2-33; the local Modal log stream was interrupted after epoch 33 |
 | `translation_resume.log` | Training log (resumed epochs 34-39) |
 | `translation_eval.log` | Evaluation log (1,739 val samples, all predictions) |
 | `translation_smoke_test.log` | Smoke test log (10 samples, 2 epochs) |
@@ -50,6 +52,29 @@ modal run translation/modal_translation_app.py --mode train
 # Evaluation on full validation set
 modal run translation/modal_translation_app.py --mode evaluate
 ```
+
+## LLM-as-Judge Evaluation
+
+The LLM judge scores each `(reference, prediction)` pair from `translation/eval_results.json` on semantic overlap, tone/register, and fluency. It runs locally through Ollama and writes resumable results to `translation/llm_judge_results.json`.
+
+```bash
+# Start Ollama if it is not already running
+ollama serve
+
+# Pull the required judge model
+ollama pull llama3.1:8b
+
+# Check input/output/model readiness without scoring
+python3 translation/llm_judge.py --preflight
+
+# Smoke test 25 examples
+python3 translation/llm_judge.py --limit 25 --output translation/llm_judge_smoke_results.json --overwrite
+
+# Full 1,739-sample judge run; rerun this same command if interrupted
+python3 translation/llm_judge.py --resume
+```
+
+The full run is accepted when `meta.n_scored` is `1739`, `meta.n_errors` is `0` or explicitly reviewed, and aggregate means are present in `translation/llm_judge_results.json`.
 
 ## Checkpoints (Modal Volume: `asl-translation-checkpoints`)
 

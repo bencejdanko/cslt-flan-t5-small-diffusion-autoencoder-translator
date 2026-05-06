@@ -1,0 +1,678 @@
+{
+  "meta": {
+    "backend": "ollama",
+    "model": "llama3.1:8b",
+    "predictions_file": "/Users/mrcyrilgoud/Desktop/repos/cslt-flan-t5-small-diffusion-autoencoder/translation/eval_results.json",
+    "predictions_sha256": "18a6bafff6b04cf368ad671614ff2a247f200d5ff27c10e159a48a33895a1801",
+    "run_signature": {
+      "backend": "ollama",
+      "model": "llama3.1:8b",
+      "predictions_file": "/Users/mrcyrilgoud/Desktop/repos/cslt-flan-t5-small-diffusion-autoencoder/translation/eval_results.json",
+      "predictions_sha256": "18a6bafff6b04cf368ad671614ff2a247f200d5ff27c10e159a48a33895a1801",
+      "n_total": 25,
+      "limit": 25,
+      "num_ctx": 2048
+    },
+    "limit": 25,
+    "num_ctx": 2048,
+    "started_at": "2026-05-06T17:19:17+00:00",
+    "finished_at": "2026-05-06T17:21:02+00:00",
+    "seconds": 104.9,
+    "samples_per_sec": 0.238,
+    "n_total": 25,
+    "n_scored": 25,
+    "n_errors": 0
+  },
+  "aggregates": {
+    "overall": {
+      "semantic": {
+        "mean": 1.76,
+        "median": 2,
+        "std": 0.512,
+        "hist": {
+          "1": 7,
+          "2": 17,
+          "3": 1,
+          "4": 0,
+          "5": 0
+        },
+        "n": 25
+      },
+      "tone": {
+        "mean": 2.68,
+        "median": 3,
+        "std": 0.546,
+        "hist": {
+          "1": 1,
+          "2": 6,
+          "3": 18,
+          "4": 0,
+          "5": 0
+        },
+        "n": 25
+      },
+      "fluency": {
+        "mean": 4.0,
+        "median": 4,
+        "std": 0.283,
+        "hist": {
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 23,
+          "5": 1
+        },
+        "n": 25
+      }
+    },
+    "by_length_bucket": {
+      "short": {
+        "n": 2,
+        "semantic": {
+          "mean": 2.0,
+          "median": 2.0,
+          "std": 0.0,
+          "hist": {
+            "1": 0,
+            "2": 2,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          },
+          "n": 2
+        },
+        "tone": {
+          "mean": 3.0,
+          "median": 3.0,
+          "std": 0.0,
+          "hist": {
+            "1": 0,
+            "2": 0,
+            "3": 2,
+            "4": 0,
+            "5": 0
+          },
+          "n": 2
+        },
+        "fluency": {
+          "mean": 4.0,
+          "median": 4.0,
+          "std": 0.0,
+          "hist": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 2,
+            "5": 0
+          },
+          "n": 2
+        }
+      },
+      "medium": {
+        "n": 12,
+        "semantic": {
+          "mean": 2.0,
+          "median": 2.0,
+          "std": 0.408,
+          "hist": {
+            "1": 1,
+            "2": 10,
+            "3": 1,
+            "4": 0,
+            "5": 0
+          },
+          "n": 12
+        },
+        "tone": {
+          "mean": 2.75,
+          "median": 3.0,
+          "std": 0.595,
+          "hist": {
+            "1": 1,
+            "2": 1,
+            "3": 10,
+            "4": 0,
+            "5": 0
+          },
+          "n": 12
+        },
+        "fluency": {
+          "mean": 4.083,
+          "median": 4.0,
+          "std": 0.276,
+          "hist": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 11,
+            "5": 1
+          },
+          "n": 12
+        }
+      },
+      "long": {
+        "n": 11,
+        "semantic": {
+          "mean": 1.455,
+          "median": 1,
+          "std": 0.498,
+          "hist": {
+            "1": 6,
+            "2": 5,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          },
+          "n": 11
+        },
+        "tone": {
+          "mean": 2.545,
+          "median": 3,
+          "std": 0.498,
+          "hist": {
+            "1": 0,
+            "2": 5,
+            "3": 6,
+            "4": 0,
+            "5": 0
+          },
+          "n": 11
+        },
+        "fluency": {
+          "mean": 3.909,
+          "median": 4,
+          "std": 0.287,
+          "hist": {
+            "1": 0,
+            "2": 0,
+            "3": 1,
+            "4": 10,
+            "5": 0
+          },
+          "n": 11
+        }
+      }
+    },
+    "top10_best": [
+      {
+        "idx": 17,
+        "ref": "Now One Point is the principal of dynamic motion without actual visible motion taking place.",
+        "pred": "So, I'm going to go ahead and make a little bit of a tutorial on how to do this.",
+        "semantic": 3,
+        "tone": 2,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction conveys a general domain (ASL instruction) but lacks specific content; tone is mostly mismatched as it's tutorial-like, but not entirely fitting the reference's formal/instructional context."
+      },
+      {
+        "idx": 0,
+        "ref": "I'll show you.",
+        "pred": "I'm going to show you how to do that.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction conveys a generic template unrelated to the specific action in the reference. Tone is partially aligned, but lacks instructional specificity."
+      },
+      {
+        "idx": 1,
+        "ref": "So that is one way, you can just let them go right by.",
+        "pred": "I'm going to show you how to do that.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is a generic template that doesn't reflect the reference's specific content, only sharing one incidental word ('that')."
+      },
+      {
+        "idx": 2,
+        "ref": "If you need to deal with the situation a little bit more it might look something like this.",
+        "pred": "You want to make sure that you're going to be able to use the right tools for your job.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction conveys a vague notion of 'using the right tools', but lacks specific content from reference, which describes a situation and its resolution."
+      },
+      {
+        "idx": 5,
+        "ref": "Yogurt in the middle east is kind of like ketchup here in the United States so and that is it for the yogurt part of the hummus.",
+        "pred": "I'm going to show you how to do this.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is a generic template that doesn't reflect the reference's specific content, only sharing one incidental word ('this')."
+      },
+      {
+        "idx": 7,
+        "ref": "You can usually find this at HEB but if cant go to your middle eastern store and they would have yogurt and you just want to add about 2 tablespoons to your hummus.",
+        "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is about money and banks, but reference is about grocery shopping for yogurt. Prediction's tone is partially aligned (concerned), but it doesn't match the reference's specific content."
+      },
+      {
+        "idx": 10,
+        "ref": "It's a lot better to get it more puree that way it has a better texture to it.",
+        "pred": "You're going to want to make sure that you don't have a lot of oil on your hands.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is about handling oil, not texture of puree. Incorrect topic but shares some incidental words."
+      },
+      {
+        "idx": 12,
+        "ref": "This one right here is my favorite and I think it is whitemountainfoods.",
+        "pred": "You're going to want to make sure that you don't have a lot of hair on your body.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is about body hair, not the reference's favorite product. Same general domain (product) but major content missing."
+      },
+      {
+        "idx": 13,
+        "ref": "com you can go and order this.",
+        "pred": "You're going to want to make sure that you don't have a lot of hair.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is about hair, but reference is about ordering. Prediction's tone is partially aligned with the reference (instructional), but it doesn't match the specific content."
+      },
+      {
+        "idx": 15,
+        "ref": "One Point, if you could look, the center of mass, is going to be bellybutton, anywhere from 2 to 3 inches down, depending, so right about where this belt is.",
+        "pred": "So, I'm going to go ahead and take a little bit of the water and put it in there.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction mentions 'water' and 'put it in there', but fails to convey the specific location of the center of mass (bellybutton) or its relation to the belt."
+      }
+    ],
+    "top10_worst": [
+      {
+        "idx": 11,
+        "ref": "This yogurt as I said is non fat it also comes in a version that is not non fat that you can pick which ever one you like but it is definitely very good yogurt.",
+        "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+        "semantic": 1,
+        "tone": 2,
+        "fluency": 3,
+        "total": 6,
+        "rationale": "Prediction is unrelated to reference, discussing bank accounts instead of yogurt. Incorrect tone for a product description."
+      },
+      {
+        "idx": 14,
+        "ref": "Now that we've covered walking properly, lets work on focusing on One Point, so we're actually moving up the body as we go.",
+        "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very expensive.",
+        "semantic": 1,
+        "tone": 2,
+        "fluency": 4,
+        "total": 7,
+        "rationale": "Prediction is unrelated to the reference, discussing finances instead of ASL movement. Fluency is high but irrelevant."
+      },
+      {
+        "idx": 9,
+        "ref": "A lot of people use olive oil in there hummus to make it a lot thinner then what it usually is because when you grind up all these garbanzo beans it comes out kind chunky.",
+        "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+        "semantic": 1,
+        "tone": 2,
+        "fluency": 4,
+        "total": 7,
+        "rationale": "Prediction is a generic template unrelated to the reference's content, discussing bank accounts instead of hummus. Fluency is high but irrelevant."
+      },
+      {
+        "idx": 8,
+        "ref": "Not only this gives it a great flavor but it also makes the hummus a little liquidly and not as chunky as it would be if it didn't have this.",
+        "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very expensive.",
+        "semantic": 1,
+        "tone": 2,
+        "fluency": 4,
+        "total": 7,
+        "rationale": "Prediction is unrelated to the reference, discussing finances instead of hummus preparation. The prediction's tone is also mismatched, being overly formal and cautionary."
+      },
+      {
+        "idx": 6,
+        "ref": "I would recommend using the middle eastern yogurt if you can on the hummus because this taste more better then the regular yogurt that you get in HEB.",
+        "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very expensive.",
+        "semantic": 1,
+        "tone": 2,
+        "fluency": 4,
+        "total": 7,
+        "rationale": "Prediction is unrelated to the reference, discussing bank accounts instead of hummus ingredients. Fluency is high but irrelevant."
+      },
+      {
+        "idx": 20,
+        "ref": "A fire hose is almost impossible to bend when water is flowing through it.",
+        "pred": "It's going to be a lot of fun.",
+        "semantic": 1,
+        "tone": 3,
+        "fluency": 4,
+        "total": 8,
+        "rationale": "Prediction is a generic statement unrelated to the reference's content, which discusses the physical properties of fire hoses."
+      },
+      {
+        "idx": 3,
+        "ref": "This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.",
+        "pred": "I'm going to show you a little bit more about how to do this.",
+        "semantic": 1,
+        "tone": 3,
+        "fluency": 4,
+        "total": 8,
+        "rationale": "Prediction is a generic template that doesn't convey the reference's specific content about Bulgarian yogurt being healthy and sour, unlike most middle eastern yogurts."
+      },
+      {
+        "idx": 4,
+        "ref": "I will definitely recommend getting this kind of yogurt so so good.",
+        "pred": "I'm going to show you how to do that.",
+        "semantic": 2,
+        "tone": 1,
+        "fluency": 5,
+        "total": 8,
+        "rationale": "Prediction is a generic template unrelated to the reference's specific content, recommending a type of yogurt."
+      },
+      {
+        "idx": 24,
+        "ref": "With correct structure, and correct relaxation, you build on tensile strength.",
+        "pred": "You're going to want to make sure that you don't have a lot of space in your room.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction is about space in room, whereas reference is about building structure with correct relaxation for tensile strength. Prediction captures one incidental word ('space'), but topic is wrong."
+      },
+      {
+        "idx": 23,
+        "ref": "It's not muscular by any means, and it is certainly not structural, but there is, well I shouldn't say that, because there is an aspect of structural to it.",
+        "pred": "You're going to want to make sure that you don't have a lot of space in your room, because it's going to be very difficult for you to get the right amount of space.",
+        "semantic": 2,
+        "tone": 3,
+        "fluency": 4,
+        "total": 9,
+        "rationale": "Prediction conveys a vague idea of space requirements, but misses the nuanced discussion of structural vs muscular aspects."
+      }
+    ]
+  },
+  "scores": [
+    {
+      "idx": 0,
+      "ref": "I'll show you.",
+      "pred": "I'm going to show you how to do that.",
+      "len_bucket": "short",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction conveys a generic template unrelated to the specific action in the reference. Tone is partially aligned, but lacks instructional specificity.",
+      "total": 9
+    },
+    {
+      "idx": 1,
+      "ref": "So that is one way, you can just let them go right by.",
+      "pred": "I'm going to show you how to do that.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is a generic template that doesn't reflect the reference's specific content, only sharing one incidental word ('that').",
+      "total": 9
+    },
+    {
+      "idx": 2,
+      "ref": "If you need to deal with the situation a little bit more it might look something like this.",
+      "pred": "You want to make sure that you're going to be able to use the right tools for your job.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction conveys a vague notion of 'using the right tools', but lacks specific content from reference, which describes a situation and its resolution.",
+      "total": 9
+    },
+    {
+      "idx": 3,
+      "ref": "This yogurt is a Bulgarian yogurt that is non fat so it really healthy, it is a little more on the sour side as far as yogurts go and most middle eastern yogurt is kind of sour.",
+      "pred": "I'm going to show you a little bit more about how to do this.",
+      "len_bucket": "long",
+      "semantic": 1,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is a generic template that doesn't convey the reference's specific content about Bulgarian yogurt being healthy and sour, unlike most middle eastern yogurts.",
+      "total": 8
+    },
+    {
+      "idx": 4,
+      "ref": "I will definitely recommend getting this kind of yogurt so so good.",
+      "pred": "I'm going to show you how to do that.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 1,
+      "fluency": 5,
+      "rationale": "Prediction is a generic template unrelated to the reference's specific content, recommending a type of yogurt.",
+      "total": 8
+    },
+    {
+      "idx": 5,
+      "ref": "Yogurt in the middle east is kind of like ketchup here in the United States so and that is it for the yogurt part of the hummus.",
+      "pred": "I'm going to show you how to do this.",
+      "len_bucket": "long",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is a generic template that doesn't reflect the reference's specific content, only sharing one incidental word ('this').",
+      "total": 9
+    },
+    {
+      "idx": 6,
+      "ref": "I would recommend using the middle eastern yogurt if you can on the hummus because this taste more better then the regular yogurt that you get in HEB.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very expensive.",
+      "len_bucket": "long",
+      "semantic": 1,
+      "tone": 2,
+      "fluency": 4,
+      "rationale": "Prediction is unrelated to the reference, discussing bank accounts instead of hummus ingredients. Fluency is high but irrelevant.",
+      "total": 7
+    },
+    {
+      "idx": 7,
+      "ref": "You can usually find this at HEB but if cant go to your middle eastern store and they would have yogurt and you just want to add about 2 tablespoons to your hummus.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+      "len_bucket": "long",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is about money and banks, but reference is about grocery shopping for yogurt. Prediction's tone is partially aligned (concerned), but it doesn't match the reference's specific content.",
+      "total": 9
+    },
+    {
+      "idx": 8,
+      "ref": "Not only this gives it a great flavor but it also makes the hummus a little liquidly and not as chunky as it would be if it didn't have this.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very expensive.",
+      "len_bucket": "long",
+      "semantic": 1,
+      "tone": 2,
+      "fluency": 4,
+      "rationale": "Prediction is unrelated to the reference, discussing finances instead of hummus preparation. The prediction's tone is also mismatched, being overly formal and cautionary.",
+      "total": 7
+    },
+    {
+      "idx": 9,
+      "ref": "A lot of people use olive oil in there hummus to make it a lot thinner then what it usually is because when you grind up all these garbanzo beans it comes out kind chunky.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+      "len_bucket": "long",
+      "semantic": 1,
+      "tone": 2,
+      "fluency": 4,
+      "rationale": "Prediction is a generic template unrelated to the reference's content, discussing bank accounts instead of hummus. Fluency is high but irrelevant.",
+      "total": 7
+    },
+    {
+      "idx": 10,
+      "ref": "It's a lot better to get it more puree that way it has a better texture to it.",
+      "pred": "You're going to want to make sure that you don't have a lot of oil on your hands.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is about handling oil, not texture of puree. Incorrect topic but shares some incidental words.",
+      "total": 9
+    },
+    {
+      "idx": 11,
+      "ref": "This yogurt as I said is non fat it also comes in a version that is not non fat that you can pick which ever one you like but it is definitely very good yogurt.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+      "len_bucket": "long",
+      "semantic": 1,
+      "tone": 2,
+      "fluency": 3,
+      "rationale": "Prediction is unrelated to reference, discussing bank accounts instead of yogurt. Incorrect tone for a product description.",
+      "total": 6
+    },
+    {
+      "idx": 12,
+      "ref": "This one right here is my favorite and I think it is whitemountainfoods.",
+      "pred": "You're going to want to make sure that you don't have a lot of hair on your body.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is about body hair, not the reference's favorite product. Same general domain (product) but major content missing.",
+      "total": 9
+    },
+    {
+      "idx": 13,
+      "ref": "com you can go and order this.",
+      "pred": "You're going to want to make sure that you don't have a lot of hair.",
+      "len_bucket": "short",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is about hair, but reference is about ordering. Prediction's tone is partially aligned with the reference (instructional), but it doesn't match the specific content.",
+      "total": 9
+    },
+    {
+      "idx": 14,
+      "ref": "Now that we've covered walking properly, lets work on focusing on One Point, so we're actually moving up the body as we go.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very expensive.",
+      "len_bucket": "long",
+      "semantic": 1,
+      "tone": 2,
+      "fluency": 4,
+      "rationale": "Prediction is unrelated to the reference, discussing finances instead of ASL movement. Fluency is high but irrelevant.",
+      "total": 7
+    },
+    {
+      "idx": 15,
+      "ref": "One Point, if you could look, the center of mass, is going to be bellybutton, anywhere from 2 to 3 inches down, depending, so right about where this belt is.",
+      "pred": "So, I'm going to go ahead and take a little bit of the water and put it in there.",
+      "len_bucket": "long",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction mentions 'water' and 'put it in there', but fails to convey the specific location of the center of mass (bellybutton) or its relation to the belt.",
+      "total": 9
+    },
+    {
+      "idx": 16,
+      "ref": "And we will continue on this subject, shortly thereafter.",
+      "pred": "So, we're going to take a little bit of the water and put it in there.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is related to the reference, but focuses on a different aspect (water) and lacks specific content about continuing the subject.",
+      "total": 9
+    },
+    {
+      "idx": 17,
+      "ref": "Now One Point is the principal of dynamic motion without actual visible motion taking place.",
+      "pred": "So, I'm going to go ahead and make a little bit of a tutorial on how to do this.",
+      "len_bucket": "medium",
+      "semantic": 3,
+      "tone": 2,
+      "fluency": 4,
+      "rationale": "Prediction conveys a general domain (ASL instruction) but lacks specific content; tone is mostly mismatched as it's tutorial-like, but not entirely fitting the reference's formal/instructional context.",
+      "total": 9
+    },
+    {
+      "idx": 18,
+      "ref": "One way of thinking of it is that, if you have somebody, it's tensile strength.",
+      "pred": "You're going to want to make sure that you don't have a lot of water on your hands.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction mentions water, which is not present in the reference. While it's a related concept, it doesn't capture the tensile strength idea.",
+      "total": 9
+    },
+    {
+      "idx": 19,
+      "ref": "And if you have somebody grab onto your arm, they're out to be a living, breathing connection, that, yes they're, it feels very strong, it feels like a fire hose.",
+      "pred": "You're going to want to make sure that you don't have a lot of money in your bank account, because it's going to be very difficult for you to get out of the bank.",
+      "len_bucket": "long",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is about financial security, but reference is about physical connection and intimacy. Prediction's tone is partially aligned with the reference's informal style.",
+      "total": 9
+    },
+    {
+      "idx": 20,
+      "ref": "A fire hose is almost impossible to bend when water is flowing through it.",
+      "pred": "It's going to be a lot of fun.",
+      "len_bucket": "medium",
+      "semantic": 1,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is a generic statement unrelated to the reference's content, which discusses the physical properties of fire hoses.",
+      "total": 8
+    },
+    {
+      "idx": 21,
+      "ref": "It's a living entity, and therefore, One Point is very much the same thing, it is a living entity.",
+      "pred": "You're going to want to make sure that you don't have a lot of water on your hands.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction conveys a vague idea of avoiding water, but misses the core concept of 'One Point' being a living entity. Tone is partially aligned with instructional register.",
+      "total": 9
+    },
+    {
+      "idx": 22,
+      "ref": "And you are looking for that constant relaxed, natural power of tensile strength.",
+      "pred": "You're going to want to make sure that you don't have a lot of water on your hands.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction mentions water, which is not present in the reference. While it's a related topic, it doesn't convey the specific meaning of tensile strength.",
+      "total": 9
+    },
+    {
+      "idx": 23,
+      "ref": "It's not muscular by any means, and it is certainly not structural, but there is, well I shouldn't say that, because there is an aspect of structural to it.",
+      "pred": "You're going to want to make sure that you don't have a lot of space in your room, because it's going to be very difficult for you to get the right amount of space.",
+      "len_bucket": "long",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction conveys a vague idea of space requirements, but misses the nuanced discussion of structural vs muscular aspects.",
+      "total": 9
+    },
+    {
+      "idx": 24,
+      "ref": "With correct structure, and correct relaxation, you build on tensile strength.",
+      "pred": "You're going to want to make sure that you don't have a lot of space in your room.",
+      "len_bucket": "medium",
+      "semantic": 2,
+      "tone": 3,
+      "fluency": 4,
+      "rationale": "Prediction is about space in room, whereas reference is about building structure with correct relaxation for tensile strength. Prediction captures one incidental word ('space'), but topic is wrong.",
+      "total": 9
+    }
+  ]
+}

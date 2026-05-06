@@ -49,7 +49,7 @@ How2Sign landmarks [T, 543, 3]
 | **This model** | **1.94** | **277x improvement** |
 | Random baseline | ~0.0 | — |
 
-> **Note**: How2Sign continuous SLT from landmarks alone is an open research problem. Published SOTA systems using full video features (not just landmarks) achieve ~10-15 BLEU. Our landmark-only, LoRA-adapted approach with 16K training utterances represents a strong baseline for this modality.
+> **Note**: How2Sign continuous SLT from landmarks alone is an open research problem. Published SOTA systems using full video features (not just landmarks) achieve ~10-15 BLEU. Our landmark-only, LoRA-adapted approach with 31,046 training utterances represents a strong baseline for this modality.
 
 ---
 
@@ -192,6 +192,17 @@ The model produces consistently medium-length outputs (~18 words) regardless of 
 ```bash
 modal run modal_translation_app.py --mode evaluate
 ```
+
+### Run LLM-as-Judge
+```bash
+ollama serve
+ollama pull llama3.1:8b
+python3 translation/llm_judge.py --preflight
+python3 translation/llm_judge.py --limit 25 --output translation/llm_judge_smoke_results.json --overwrite
+python3 translation/llm_judge.py --resume
+```
+
+The LLM judge reads `translation/eval_results.json` and writes `translation/llm_judge_results.json`. The full output should have `meta.n_scored == 1739`, reviewed `meta.n_errors`, and aggregate means for semantic, tone/register, and fluency.
 
 ### Checkpoints (Modal Volume: `asl-translation-checkpoints`)
 - `translation/best.pt` — Best checkpoint (epoch 24, BLEU 2.45 on 500-sample val)
